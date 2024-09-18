@@ -37,4 +37,5 @@ public class CameraStateAlert : State<StateEnum>
         base.Exit();
         _alert.IsAlert = false;
     }
+
 }

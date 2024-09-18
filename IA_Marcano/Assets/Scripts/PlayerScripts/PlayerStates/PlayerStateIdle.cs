@@ -2,18 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateIdle<T> : State<T>
+public class PlayerStateIdle : State<StateEnum>
 {
-    FSM<T> _fsm;
-    T _inputToMove;
-    T _inputToSpin;
+    FSM<StateEnum> _fsm;
     IMove _move;
 
-    public PlayerStateIdle(FSM<T> fsm, T inputToMove, T inputToSpin, IMove move)
+    public PlayerStateIdle(FSM<StateEnum> fsm, IMove move)
     {
         _fsm = fsm;
-        _inputToMove = inputToMove;
-        _inputToSpin = inputToSpin;
         _move = move;
     }
 
@@ -25,16 +21,17 @@ public class PlayerStateIdle<T> : State<T>
     public override void Execute()
     {
         base.Execute();
-        var h = Input.GetAxis("Horizontal");
-        var v = Input.GetAxis("Vertical");
+        var h = Input.GetAxis("Horizontal"); //TODO INPUT MANAGER
+        var v = Input.GetAxis("Vertical"); //TODO INPUT MANAGER
 
-        if (h != 0 || v != 0)
+        if (h != 0 || v != 0) //TODO INPUT MANAGER
         {
-            _fsm.Transition(_inputToMove);
+            _fsm.Transition(StateEnum.Move); //TODO CAMBIAR A DECISION TREE
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space)) //TODO INPUT MANAGER
         {
-            _fsm.Transition(_inputToSpin);
+            _fsm.Transition(StateEnum.Spin); //TODO CAMBIAR A DECISION TREE
         }
     }
+
 }

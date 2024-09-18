@@ -1,31 +1,52 @@
-using System.Collections;
-using System.Collections.Generic;
+using CameraScripts.CameraStates;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+namespace CameraScripts
 {
-    public Transform target;
-    LineOfSight _los;
-    IAlert _alert;
-    ISpin _spin;
-    private void Awake()
+    public class CameraController : MonoBehaviour
     {
-        _los = GetComponent<LineOfSight>();
-        _alert = GetComponent<IAlert>();
-        _spin = target.GetComponent<ISpin>();
-    }
-    // Update is called once per frame
-    void Update()
-    {
-        if ((_spin == null || _spin.IsDetectable) && _los.CheckRange(target) && _los.CheckAngle(target) && _los.CheckView(target))
+        public Transform target;
+        LineOfSight _los;
+        IAlert _alert;
+        ISpin _spin; ////TODO SPIN
+        private FSM<StateEnum> _fsm;
+        private void Awake()
         {
-            _alert.IsAlert = true;
-            print("Camera alert: True");
+            _los = GetComponent<LineOfSight>();
+            _alert = GetComponent<IAlert>();
+            _spin = target.GetComponent<ISpin>();
         }
-        else
+
+        private void Start()
         {
-            _alert.IsAlert = false;
-            print("Camera alert: False");
+            InitializeFSM();
+        }
+
+        private void InitializeFSM()
+        {
+            _fsm = new FSM<StateEnum>();
+            var idle = new CameraStateIdle(_fsm, _los, target, _spin); //TODO SPIN
+            var alert = new CameraStateAlert(_fsm, _los, target, _spin, _alert); //TODO SPIN
+
+            idle.AddTransition(StateEnum.Alert, alert);
+            alert.AddTransition(StateEnum.Idle, idle);
+        
+            _fsm.SetInitial(idle);
+        }
+        // Update is called once per frame
+        private void Update()
+        {
+            _fsm.OnUpdate();
+        }
+
+        private void LateUpdate()
+        {
+            _fsm.OnLateUpdate();
+        }
+
+        private void FixedUpdate()
+        {
+            _fsm.OnFixedUpdate();
         }
     }
 }

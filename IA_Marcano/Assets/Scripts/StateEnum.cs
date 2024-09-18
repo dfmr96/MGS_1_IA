@@ -7,5 +7,7 @@ public enum StateEnum
    Idle,
    Move,
    Spin,
-   Alert
+   Alert,
+   Attack,
+   Chase
 }

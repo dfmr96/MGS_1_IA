@@ -13,14 +13,14 @@ public class PlayerStateMove : State<StateEnum>
     }
     public override void FixedExecute()
     {
-        var h = Input.GetAxis("Horizontal");
-        var v = Input.GetAxis("Vertical");
+        var h = Input.GetAxis("Horizontal"); //TODO INPUT MANAGER
+        var v = Input.GetAxis("Vertical"); //TODO INPUT MANAGER
 
-        Vector3 dir = new Vector3(h, 0, v);
+        Vector3 dir = new Vector3(h, 0, v); 
 
-        if (h == 0 && v == 0)
+        if (h == 0 && v == 0) //TODO INPUT MANAGER
         {
-            _fsm.Transition(StateEnum.Idle);
+            _fsm.Transition(StateEnum.Idle); //TODO CAMBIAR A DECISION TREE
         }
         else
         {
@@ -28,9 +28,9 @@ public class PlayerStateMove : State<StateEnum>
             _move.Look(dir);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space)) //TODO INPUT MANAGER
         {
-            _fsm.Transition(StateEnum.Spin);
+            _fsm.Transition(StateEnum.Spin); //TODO CAMBIAR A DECISION TREE
         }
     }
 }

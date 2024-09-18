@@ -5,28 +5,28 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     IMove _move;
-    ISpin _spin;
+    ISpin _spin; //TODO SPIN
     FSM<StateEnum> _fsm;
     void Start()
     {
         _move = GetComponent<IMove>();
-        _spin = GetComponent<ISpin>();
+        _spin = GetComponent<ISpin>(); //TODO SPIN
         InitializedFSM();
     }
     void InitializedFSM()
     {
         _fsm = new FSM<StateEnum>();
-        var idle = new PlayerStateIdle<StateEnum>(_fsm, StateEnum.Move, StateEnum.Spin, _move);
+        var idle = new PlayerStateIdle(_fsm, _move);
         var move = new PlayerStateMove(_fsm, _move);
-        var spin = new PlayerStateSpin(_fsm, _spin);
+        var spin = new PlayerStateSpin(_fsm, _spin); //TODO SPIN
 
         idle.AddTransition(StateEnum.Move, move);
-        idle.AddTransition(StateEnum.Spin, spin);
+        idle.AddTransition(StateEnum.Spin, spin); //TODO SPIN
 
         move.AddTransition(StateEnum.Idle, idle);
-        move.AddTransition(StateEnum.Spin, spin);
+        move.AddTransition(StateEnum.Spin, spin); //TODO SPIN
 
-        spin.AddTransition(StateEnum.Idle, idle);
+        spin.AddTransition(StateEnum.Idle, idle); //TODO SPIN
 
 
         _fsm.SetInitial(idle);
@@ -34,16 +34,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         _fsm.OnUpdate();
-        //if (_spin.IsDetectable)
-        //{
-        //    var h = Input.GetAxis("Horizontal");
-        //    var v = Input.GetAxis("Vertical");
-
-        //    Vector3 dir = new Vector3(h, 0, v);
-        //    _move.Move(dir.normalized);
-        //    if (h != 0 || v != 0) _move.Look(dir);
-        //}
-        //if (Input.GetKeyDown(KeyCode.Space)) _spin.Spin();
     }
     private void FixedUpdate()
     {
@@ -53,5 +43,4 @@ public class PlayerController : MonoBehaviour
     {
         _fsm.OnLateUpdate();
     }
-
 }

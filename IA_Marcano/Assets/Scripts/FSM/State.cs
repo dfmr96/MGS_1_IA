@@ -25,7 +25,7 @@ public class State<T> : IState<T>
     {
 
     }
-    public void AddTransition(T input, IState<T> state)
+    public void AddTransition(T input, IState<T> state) //El input es lo que activa el nuevo estado
     {
         _transitions[input] = state;
     }
@@ -34,7 +34,7 @@ public class State<T> : IState<T>
         if (_transitions.ContainsKey(input))
             _transitions.Remove(input);
     }
-    public void RemoveTransition(IState<T> state)
+    public void RemoveTransition(IState<T> state) // No se usa generalmente
     {
         foreach (var item in _transitions)
         {

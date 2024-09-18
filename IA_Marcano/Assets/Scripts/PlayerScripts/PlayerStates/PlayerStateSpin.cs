@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateSpin : State<StateEnum>
+public class PlayerStateSpin : State<StateEnum> ////TODO SPIN
 {
     ISpin _spin;
     FSM<StateEnum> _fsm;
@@ -30,4 +30,5 @@ public class PlayerStateSpin : State<StateEnum>
         base.Exit();
         _spin.Spin();
     }
+
 }

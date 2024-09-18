@@ -14,6 +14,6 @@ public class CameraView : MonoBehaviour
 
     void Update()
     {
-        image.SetActive(_alert.IsAlert);
+        image.SetActive(_alert.IsAlert); //TODO LO DEBE HACER LA FSM
     }
 }
