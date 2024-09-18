@@ -1,0 +1,282 @@
+fileFormatVersion: 2
+guid: 49a24c832085aab4a918bc345f30692f
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 005e49
+    second: {fileID: 2100000, guid: c992670cb1db22b4fbe17c33923a3cde, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 005e4a
+    second: {fileID: 2100000, guid: d2c4d02ba0340b24f9e2e700e400aabf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 008b64
+    second: {fileID: 2100000, guid: afe3098d414cf7548a18836f735f98f3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 008b65
+    second: {fileID: 2100000, guid: 260bdf183daf7854d9dfa2a2f25c7018, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 008b66
+    second: {fileID: 2100000, guid: 62590f5e980ae484c979001122939d1d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 008b67
+    second: {fileID: 2100000, guid: dd123e158ed76104d9411c1e3f591902, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 008b68
+    second: {fileID: 2100000, guid: 1c81f08a73acd3e428f7b99595ac56a4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 008b69
+    second: {fileID: 2100000, guid: 3e57d5509cdf7ca4cb724b97b1846d4a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 0093ed
+    second: {fileID: 2100000, guid: 007fe21376bd8904ba8a6ec850e5387b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 0093ee
+    second: {fileID: 2100000, guid: 3c1a2b0e57183134d81843f0cf4a28dc, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 009c64
+    second: {fileID: 2100000, guid: 37db0a3f5ab2b4546865786db17c392c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 00a80b
+    second: {fileID: 2100000, guid: 55982de2eb6df3640a8e426e061a32ae, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 00a80c
+    second: {fileID: 2100000, guid: 2663e6bc876f2b24fa42d5db8ef0bada, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 00a80d
+    second: {fileID: 2100000, guid: 1cabcf60ffa73a2499e1dca096e0d9bf, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 00a80e
+    second: {fileID: 2100000, guid: 2db1ed63554c5ca4d89763252c64d0bb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 00cf62
+    second: {fileID: 2100000, guid: be8731fb99a5bf748b35875858cf51a6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 00d430
+    second: {fileID: 2100000, guid: 032f9b926930fe9419ed25f5768b2582, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 00d431
+    second: {fileID: 2100000, guid: 1f3ec962c93c66546995a13ca09dd5d3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 00d475
+    second: {fileID: 2100000, guid: 82637cf06c9f5fc4286792261aa0c27c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 00d510
+    second: {fileID: 2100000, guid: 684519bd93f66d247b2c0f8c10c901c6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 00d511
+    second: {fileID: 2100000, guid: 22a9a362d19ea064995d53b56111632b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 00d592
+    second: {fileID: 2100000, guid: 021df2f259c521e4290e6f46b0285525, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 00d593
+    second: {fileID: 2100000, guid: 708124a0d3a37334cafc2caab1a9d6dd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 00dc9d
+    second: {fileID: 2100000, guid: 7e2af14a00365e048af4de4122b538f7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 00ecee
+    second: {fileID: 2100000, guid: 192944abf5ca75f4aaa388ecb3d77cc3, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 00ecef
+    second: {fileID: 2100000, guid: 42650eeb727e41c4297eaad2475d97f4, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: 00fea0
+    second: {fileID: 2100000, guid: 5f6b773ecea8989418d1082ec41b1e62, type: 2}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture
+    second: {fileID: 2800000, guid: d377f54742d9c204ca94d727be46e929, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-1
+    second: {fileID: 2800000, guid: 645c5bc5224f4e84c845b71badce8303, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-10
+    second: {fileID: 2800000, guid: f1580c64d32b9d943b6a63c89aa55d6b, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-11
+    second: {fileID: 2800000, guid: 26349f821e8783f4287261acc956bfa2, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-12
+    second: {fileID: 2800000, guid: f5030f3322e40984cb8bd7dd37531910, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-13
+    second: {fileID: 2800000, guid: 157f2ea09a6b73748b81baf687b6310e, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-14
+    second: {fileID: 2800000, guid: f221767a380cb7a4fb0f98265fd7df58, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-15
+    second: {fileID: 2800000, guid: 5ce71e19877da6c4fb42feb706b3ab1b, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-16
+    second: {fileID: 2800000, guid: b702f347e156e294f877da25b7f2189a, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-17
+    second: {fileID: 2800000, guid: 59f6e087a87cf1741ab2774cb64631f8, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-18
+    second: {fileID: 2800000, guid: 40c39a90234e5c34cb45c27ae9a40863, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-19
+    second: {fileID: 2800000, guid: 6c5345207e50c234a8c30dc714c05aef, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-2
+    second: {fileID: 2800000, guid: c7e0b6c6669d94440a6acc81c966234c, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-20
+    second: {fileID: 2800000, guid: 0169d87737788734989f9f99a5da4658, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-21
+    second: {fileID: 2800000, guid: 3cbc45470a94d7444b58b30d6465c527, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-22
+    second: {fileID: 2800000, guid: 5a309ad8cf044894d8a917d1b298474b, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-23
+    second: {fileID: 2800000, guid: d3a97363b9453ef4db26c7e48bbfd08a, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-24
+    second: {fileID: 2800000, guid: 455d1904566669f48a0a53e188676ec4, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-25
+    second: {fileID: 2800000, guid: b352bd76168e5bb42b5d812bf60e51cf, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-26
+    second: {fileID: 2800000, guid: f3fd949923ff54d44b6188f862e31d95, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-3
+    second: {fileID: 2800000, guid: 3064d05f8674180428fa997fa4991fc8, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-4
+    second: {fileID: 2800000, guid: 83c6fbb6830d41142b1525f7e2b10fff, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-5
+    second: {fileID: 2800000, guid: 6f4bf3c9767b39846bb6d26aea3c29ab, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-6
+    second: {fileID: 2800000, guid: af19b7ce978cc3c44bb80c2e58142125, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-7
+    second: {fileID: 2800000, guid: 4bda2fded4b355a4da57c052c1a76293, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-8
+    second: {fileID: 2800000, guid: 6aba031236574bf419aa6788e679b5a0, type: 3}
+  - first:
+      type: UnityEngine:Texture
+      assembly: UnityEngine.CoreModule
+      name: Diffuse Texture-Diffuse Texture-9
+    second: {fileID: 2800000, guid: 2f05650e26080714e9b873367839dbab, type: 3}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: aecd2106718f2444db3ca21345da2cef, type: 3}
+  reverseAxis: 0
+  renderPipeline: 0
