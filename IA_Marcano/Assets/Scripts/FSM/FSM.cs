@@ -40,6 +40,7 @@ public class FSM<T>
         _current.Exit();
         _current = newState;
         _current.Enter();
+        Debug.Log($"{previousState}, {_current}");
         onTransition(input, _current, previousState);
     }
     public IState<T> GetCurrent => _current;

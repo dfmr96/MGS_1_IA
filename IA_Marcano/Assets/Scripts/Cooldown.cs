@@ -27,6 +27,11 @@ public class Cooldown
         RunCooldown();
         return _timer > 0;
     }
+
+    public bool OnCooldown()
+    {
+        return _timer > 0;
+    }
     public void RunCooldown()
     {
         _timer -= Time.deltaTime;

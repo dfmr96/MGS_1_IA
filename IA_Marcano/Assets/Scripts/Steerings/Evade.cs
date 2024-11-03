@@ -17,7 +17,7 @@ public class Evade : ISteering
 
     public Vector3 GetDir()
     {
-        Vector3 point = _target.position + _target.transform.forward * _target.velocity.magnitude * _timePrediction;
+        Vector3 point = _target.position + _target.transform.forward * (_target.velocity.magnitude * _timePrediction);
         Vector3 dirEvade = (_entity.position - point).normalized;
         Vector3 dirFlee = (_entity.position - _target.position).normalized;
         if (Vector3.Dot(dirEvade, dirFlee) < 0)

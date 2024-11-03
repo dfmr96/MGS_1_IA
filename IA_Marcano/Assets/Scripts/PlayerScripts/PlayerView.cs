@@ -1,34 +1,32 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerView : MonoBehaviour
 {
-    [SerializeField]
-    Animator _anim;
     Rigidbody _rb;
-    ISpin _spin;
+    [SerializeField] Animator _anim;
+    PlayerModel _playerModel;
+    
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _spin = GetComponent<ISpin>();
-        _spin.OnSpin += OnSpinAnimation;
-        OnSpinAnimation();
+        _playerModel = GetComponent<PlayerModel>();
     }
+
+    private void Start()
+    {
+        _playerModel.OnDamaged += PlayDeadAnim;
+    }
+
+    private void PlayDeadAnim()
+    {
+        _anim.SetBool("isDead", true);
+    }
+
     private void Update()
     {
-        if (_spin.IsDetectable)
-        {
-            _anim.SetFloat("Vel", _rb.velocity.magnitude);
-        }
-        else
-        {
-            _anim.SetFloat("Vel", 0);
-
-        }
-    }
-    void OnSpinAnimation()
-    {
-        _anim.SetBool("IsDetectable", _spin.IsDetectable);
+        _anim.SetFloat("Vel", _rb.velocity.magnitude);
     }
 }

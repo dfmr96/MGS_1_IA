@@ -3,58 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerModel : MonoBehaviour, IMove, ISpin
+public class PlayerModel : Entity
 {
-    Rigidbody _rb;
-    public float speed;
+    public bool IsDead { get; private set; } = false;
     bool _isDetectable = true;
-
-    ////()=>()
-    //public delegate void MyDelegate();
-    //public delegate void MyDelegate2();
-    //public MyDelegate OnSpin;
-    //public Func<float> OnSpin3;
-
-    Action _onSpin = delegate { };
-
-    private void Awake()
+    public event Action OnDamaged;
+    public void TakeDamage()
     {
-        _rb = GetComponent<Rigidbody>();
+        IsDead = true;
+        Debug.Log("Dead");
+        GameManager.Instance.GameOver();
+        OnDamaged?.Invoke();
     }
-    //M: Model
-    //V: View
-    //C: Controller
-
-    public void Test()
-    {
-
-    }
-    public void Move(Vector3 dir)
-    {
-        dir = dir.normalized;
-        dir *= speed;
-        dir.y = _rb.velocity.y;
-        _rb.velocity = dir;
-    }
-    public void Look(Vector3 dir)
-    {
-        transform.forward = dir;
-    }
-    public void Look(Transform target)
-    {
-        //A->B
-        //B-A
-        //A: Yo
-        //B: Target
-        Vector3 dir = target.position - transform.position;
-        Look(dir);
-    }
-    public void Spin()
-    {
-        _isDetectable = !_isDetectable;
-        _onSpin();
-    }
-    public bool IsDetectable => _isDetectable;
-
-    Action ISpin.OnSpin { get => _onSpin; set => _onSpin = value; }
 }

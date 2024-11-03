@@ -9,5 +9,8 @@ public enum StateEnum
    Spin,
    Alert,
    Attack,
-   Chase
+   Steering,
+   Evade,
+   Patrol, 
+   Dead
 }

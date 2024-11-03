@@ -6,3 +6,11 @@ public interface ISteering
 {
     Vector3 GetDir();
 }
+
+public enum SteeringMode
+{
+    Seek,
+    Flee,
+    Pursuit,
+    Evade
+}

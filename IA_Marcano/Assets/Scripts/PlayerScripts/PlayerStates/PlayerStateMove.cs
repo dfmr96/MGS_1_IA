@@ -18,19 +18,8 @@ public class PlayerStateMove : State<StateEnum>
 
         Vector3 dir = new Vector3(h, 0, v); 
 
-        if (h == 0 && v == 0) //TODO INPUT MANAGER
-        {
-            _fsm.Transition(StateEnum.Idle); //TODO CAMBIAR A DECISION TREE
-        }
-        else
-        {
-            _move.Move(dir.normalized);
-            _move.Look(dir);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space)) //TODO INPUT MANAGER
-        {
-            _fsm.Transition(StateEnum.Spin); //TODO CAMBIAR A DECISION TREE
-        }
+        _move.Move(dir.normalized);
+        _move.Look(dir);
+        
     }
 }

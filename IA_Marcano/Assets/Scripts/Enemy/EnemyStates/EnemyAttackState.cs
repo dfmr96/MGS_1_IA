@@ -1,25 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAttackState : State<StateEnum>
+namespace Enemy.EnemyStates
 {
-    IAttack _attack;
+    public class EnemyAttackState : State<StateEnum>
+    {
+        IAttack _attack;
 
-    public EnemyAttackState(IAttack attack)
-    {
-        _attack = attack;
-    }
-    public override void Enter()
-    {
-        base.Enter();
-    }
-    public override void Execute()
-    {
-        if (_attack.Cooldown == null || !_attack.Cooldown.IsCooldown())
+        public EnemyAttackState(IAttack attack, IMove entityMove)
         {
-            _attack.Attack();
+            _attack = attack;
+            entityMove.Stop();
         }
-        base.Execute();
+        public override void Execute()
+        {
+            if (_attack.AttackCooldown == null || !_attack.AttackCooldown.IsCooldown())
+            {
+                Debug.Log("Atacado");
+                _attack.Attack();
+            }
+            base.Execute();
+        }
     }
 }

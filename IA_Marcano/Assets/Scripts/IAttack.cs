@@ -8,5 +8,5 @@ public interface IAttack
     void Attack();
     float GetAttackRange { get; }
     Action OnAttack { get; set; }
-    Cooldown Cooldown { get;}
+    Cooldown AttackCooldown { get;}
 }
