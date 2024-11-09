@@ -3,38 +3,53 @@ using UnityEngine;
 
 namespace Enemy.EnemyStates
 {
+    
+    [Serializable]
     public class EnemyIdleState : State<StateEnum>
     {
-        private readonly IMove _move;
-        private float _idleTimer;
-        private float _idleTime;
+        private readonly Entity _entity;
+        [SerializeField] private float _idleTimer;
+        [SerializeField] private float _idleTime;
         private IPatrol _patrol;
-        public Action onFinishIdle();
-        public bool isIdle;
+        private bool _isIdle;
+        public bool IsIdle => _isIdle;
+        private EnemyView _enemyView;
 
-        public EnemyIdleState(IMove move, float idleTime, ref float idleTimer, IPatrol patrol)
+        public EnemyIdleState(Entity entity, float idleTime, float idleTimer, EnemyView enemyView)
         {
-            _move = move;
+            _entity = entity;
             _idleTime = idleTime;
             _idleTimer = idleTimer;
-            _patrol = patrol;
+            _enemyView = enemyView;
         }
 
         public override void Enter()
         {
-            _move.Stop();
-            _idleTimer = 0f;
+            Debug.Log("Entró en Idle");
+            _isIdle = true;
+            _enemyView.OnIdle(_isIdle);
+            _entity.Stop();
         }
 
         public override void Execute()
         {
+            if (!_isIdle) return;
+            
             _idleTimer += Time.deltaTime;
 
             if (_idleTimer > _idleTime)
             {
-                _patrol.RemainingWaypointsToRest = _patrol.CurrentWaypoint;
-                //Event TODO
+                _idleTimer = 0;
+                _isIdle = false;
+                _enemyView.OnIdle(_isIdle);
             }
+        }
+
+        public override void Sleep()
+        {
+            base.Sleep();
+            Debug.Log($"Salió de Idle {IsIdle}");
+            _isIdle = true;
         }
     }
 }

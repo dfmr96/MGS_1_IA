@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Enemy;
 using UnityEngine;
 
 public class EnemyView : MonoBehaviour
@@ -8,10 +9,14 @@ public class EnemyView : MonoBehaviour
     Animator _anim;
     Rigidbody _rb;
     IAttack _attack;
+
+    public Animator Anim => _anim;
+
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _attack = GetComponent<IAttack>();
+        _anim = GetComponent<Animator>();
     }
     private void Start()
     {
@@ -19,10 +24,25 @@ public class EnemyView : MonoBehaviour
     }
     private void Update()
     {
-        _anim.SetFloat("Vel", _rb.velocity.magnitude);
+        Anim.SetFloat("Vel", _rb.velocity.magnitude);
     }
     void OnAttackAnim()
     {
-        _anim.SetTrigger("Attack");
+        Anim.SetTrigger("Attack");
+    }
+
+    public void OnIdle(bool isIdle)
+    {
+        Anim.SetBool("isIdle", isIdle);
+    }
+    
+    public void OnPatrol(bool isPatrol)
+    {
+        Anim.SetBool("isPatrol", isPatrol);
+    }
+
+    public void TurnAround()
+    {
+        Anim.SetTrigger("TurnAround");
     }
 }

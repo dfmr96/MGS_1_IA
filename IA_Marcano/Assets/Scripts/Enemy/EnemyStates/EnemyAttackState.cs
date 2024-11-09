@@ -9,7 +9,7 @@ namespace Enemy.EnemyStates
         public EnemyAttackState(IAttack attack, IMove entityMove)
         {
             _attack = attack;
-            entityMove.Stop();
+            //entityMove.Stop();
         }
         public override void Execute()
         {

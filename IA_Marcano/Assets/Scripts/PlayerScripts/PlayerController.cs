@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
         move.AddTransition(StateEnum.Idle, idle);
         move.AddTransition(StateEnum.Dead, dead);
 
-        _fsm.SetInitial(idle);
+        //_fsm.SetInitial(idle);
     }
 
     void InitializeTree()
@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        _fsm.OnFixedUpdate();
+        //_fsm.OnFixedUpdate();
     }
     private void LateUpdate()
     {

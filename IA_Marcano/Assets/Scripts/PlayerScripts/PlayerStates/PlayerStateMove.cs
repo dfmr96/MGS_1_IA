@@ -11,7 +11,7 @@ public class PlayerStateMove : State<StateEnum>
         _move = move;
         _fsm = fsm;
     }
-    public override void FixedExecute()
+    /*public override void FixedExecute()
     {
         var h = Input.GetAxis("Horizontal"); //TODO INPUT MANAGER
         var v = Input.GetAxis("Vertical"); //TODO INPUT MANAGER
@@ -21,5 +21,5 @@ public class PlayerStateMove : State<StateEnum>
         _move.Move(dir.normalized);
         _move.Look(dir);
         
-    }
+    }*/
 }

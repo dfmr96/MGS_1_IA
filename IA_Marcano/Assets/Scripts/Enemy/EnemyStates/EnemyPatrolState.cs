@@ -1,87 +1,50 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 namespace Enemy.EnemyStates
 {
-    public class EnemyPatrolState: State<StateEnum>//, IPAtrol TODO
+    public class EnemyPatrolState : StatePathfinding<StateEnum>
     {
-        private IPatrol _patrol;
-        private IMove _move;
-        private Transform _transform;
+        private List<Node> _patrolWaypoints;
+        private int _index;
+        private EnemyView _enemyView;
+        private float turnThreshold = 0.5f;
 
-        public EnemyPatrolState(IPatrol patrol, IMove move, Transform transform)
+        public EnemyPatrolState(Transform entity, IMove move, EnemyView enemyView,List<Node> patrolWaypoints, float distanceToPoint = 0.2f) : base(entity, move, enemyView.Anim, distanceToPoint)
         {
-            _patrol = patrol;
-            _move = move;
-            _transform = transform;
-            _patrol.RemainingWaypointsToRest = _patrol.WaypointsToRest;
+            _patrolWaypoints = patrolWaypoints;
+            _index = 0;
+            _enemyView = enemyView;
         }
-        
+
         public override void Enter()
         {
-            _patrol.RemainingWaypointsToRest = _patrol.WaypointsToRest;
+            SetPathAStarPlus(_patrolWaypoints[_index].transform.position);
+            isFinishPath = false;
+            _enemyView.OnPatrol(true);
+            Debug.Log(isFinishPath);
         }
-
-        public override void Execute()
+        
+        protected override void OnFinishPath()
         {
-            if (IsAtCurrentWaypoint())
+            base.OnFinishPath();
+            if (_index < _patrolWaypoints.Count - 1)
             {
-                HandleWaypointArrival();
+                _index++;
             }
             else
             {
-                MoveTowardsCurrentWaypoint();
+                _index = 0;
             }
+            Debug.Log(isFinishPath);
         }
 
-        private void HandleWaypointArrival()
+        public override void Sleep()
         {
-            _patrol.RemainingWaypointsToRest--;
-            UpdateWaypoint();
-        }
-        private void UpdateWaypoint()
-        {
-            //TODO Podria volverse un action;
-            if (_patrol.IsReversing)
-            {
-                MoveToPreviousWaypoint();
-            }
-            else
-            {
-                MoveToNextWaypoint();
-            }
-        }
-
-        private void MoveToPreviousWaypoint()
-        {
-            if (_patrol.CurrentWaypoint - 1 < 0)
-            {
-                _patrol.IsReversing = false;
-            }
-            else
-            {
-                _patrol.CurrentWaypoint--;
-            }        
-        }
-        private void MoveToNextWaypoint()
-        {
-            if (_patrol.CurrentWaypoint + 1 >= _patrol.Waypoints.Length)
-            {
-                _patrol.IsReversing = true;
-            }
-            else
-            {
-                _patrol.CurrentWaypoint++;
-            }
-        }
-
-        private bool IsAtCurrentWaypoint()
-        {
-            return Vector3.Distance(_transform.position,  _patrol.Waypoints[_patrol.CurrentWaypoint].position) <
-                   _patrol.WaypointDistanceThreshold;
-        }
-        private void MoveTowardsCurrentWaypoint()
-        {
-            _move.Move(_patrol.Waypoints[_patrol.CurrentWaypoint].position - _transform.transform.position);
+            base.Sleep();
+            Debug.Log("Salió de Patrol");
+            _enemyView.OnPatrol(false);
         }
     }
 }

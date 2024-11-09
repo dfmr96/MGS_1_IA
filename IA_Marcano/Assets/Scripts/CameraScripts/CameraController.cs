@@ -32,7 +32,7 @@ namespace CameraScripts
             idle.AddTransition(StateEnum.Alert, alert);
             alert.AddTransition(StateEnum.Idle, idle);
         
-            _fsm.SetInitial(idle);
+            //_fsm.SetInitial(idle);
         }
 
         private void InitializeTree()
@@ -65,7 +65,7 @@ namespace CameraScripts
 
         private void FixedUpdate()
         {
-            _fsm.OnFixedUpdate();
+            //_fsm.OnFixedUpdate();
         }
     }
 }

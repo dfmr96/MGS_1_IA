@@ -17,10 +17,10 @@ public class CameraStateAlert : State<StateEnum>
         //TODO Alert others
         Debug.Log("ALERT ENTER");
     }
-    public override void Exit()
-    {
-        base.Exit();
-        _alert.IsAlert = false;
-    }
+    //public override void Exit()
+    //{
+    //    //base.Exit(); T
+    //    _alert.IsAlert = false;
+    //} TODO 
 
 }

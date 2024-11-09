@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyModel : Entity, IAttack, IPatrol
+public class EnemyModel : Entity, IAttack
 {
     public LayerMask attackMask;
     [SerializeField]
@@ -11,16 +11,6 @@ public class EnemyModel : Entity, IAttack, IPatrol
     Action _onAttack;
     public float attackCooldownTime;
     Cooldown _attackCooldown;
-    
-    
-    
-    [field: Header("Patrol")]
-    [field: SerializeField] public int CurrentWaypoint { get; set; }
-    [field: SerializeField] public Transform[] Waypoints { get; set;}
-    [field: SerializeField] public float WaypointDistanceThreshold { get; set; }
-    [field: SerializeField] public int WaypointsToRest { get; set; }
-    [field: SerializeField] public int RemainingWaypointsToRest { get; set; }
-    [field: SerializeField] public bool IsReversing { get; set; }
     
     [Header("Obstacle Avoidance")]
     public float radius;

@@ -34,13 +34,13 @@ namespace Enemy.EnemyStates
             _move.Move(dir.normalized);
         }
 
-        public override void Exit()
+        /*public override void Exit()
         {
             if (_steering == _steeringBehaviors[SteeringMode.Evade])
             {
                 BeginEvade();
             }
-        }
+        }*/
         
         void BeginEvade()
         {
