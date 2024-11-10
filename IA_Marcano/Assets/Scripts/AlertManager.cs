@@ -13,11 +13,14 @@ public class AlertManager : MonoBehaviour
     private FSM<StateEnum> _fsm;
     private ITreeNode _root;
 
-    [SerializeField] private float _redAlertTime;
+    [SerializeField] private float _alertTime;
     [SerializeField] private Color _alertColor;
-    [SerializeField] private float _yellowAlertTime;
-    [SerializeField] private AlertState _alertState;
+    [SerializeField] private float _evasionTime;
+    [SerializeField] private Color _evasionColor;
+    [SerializeField] private AlertManagerState _alertState;
+    [SerializeField] private AlertManagerState _evasionState;
     [SerializeField] private GameObject _alertUI;
+    [SerializeField] private GameObject _evasionUI;
     [SerializeField] private TMP_Text _countdown;
     [SerializeField] private GameObject _stateBackground;
 
@@ -42,11 +45,18 @@ public class AlertManager : MonoBehaviour
     private void InitializedFSM()
     {
         var idleState = new IdleState();
-        _alertState = new AlertState(_redAlertTime, _countdown, _stateBackground, _alertUI, _alertColor);
+        _alertState = new AlertState("Alert",_alertTime, _countdown, _stateBackground, _alertUI, _alertColor);
+        _evasionState = new EvasionState("Evasion",_evasionTime, _countdown, _stateBackground, _evasionUI, _evasionColor);
 
         idleState.AddTransition(StateEnum.Alert, _alertState);
+        idleState.AddTransition(StateEnum.Evasion, _evasionState);
         
-        _alertState.AddTransition(StateEnum.Idle,idleState);
+        _alertState.AddTransition(StateEnum.Evasion, _evasionState);
+        //_alertState.AddTransition(StateEnum.Idle, idleState);
+        
+        _evasionState.AddTransition(StateEnum.Alert, _alertState);
+        _evasionState.AddTransition(StateEnum.Idle, idleState);
+        
 
         _fsm = new FSM<StateEnum>(idleState);
     }
@@ -54,11 +64,30 @@ public class AlertManager : MonoBehaviour
     private void InitializeTree()
     {
         var idle = new ActionTree(() => _fsm.Transition(StateEnum.Idle));
+        var evasion = new ActionTree(() => _fsm.Transition(StateEnum.Evasion));
         var alert = new ActionTree(() => _fsm.Transition(StateEnum.Alert));
 
-        var qInAlert = new QuestionTree(() => _alertState.IsAlertFinished, idle, alert);
+        var qInEvasion = new QuestionTree(() => _evasionState.IsStateFinished, idle, evasion);
+        var qInAlert = new QuestionTree(() => _alertState.IsStateFinished, qInEvasion, alert);
+        //var qInIdle = new QuestionTree(IsIdle, idle, qInAlert);
 
         _root = qInAlert;
+    }
+
+    public bool IsIdle()
+    {
+        if (_evasionState.IsStateFinished && _alertState.IsStateFinished)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public bool IsAlert()
+    {
+        if (_alertState.IsStateFinished) return true;
+        return false;
     }
 
     private void Update()
@@ -70,6 +99,25 @@ public class AlertManager : MonoBehaviour
     [ContextMenu("Call Alert")]
     public void CallAlert()
     {
-        _alertState.CallAlert();
+        _alertState.CallState();
+        _evasionState.CallState();
+    }
+    [ContextMenu("Call Evasion")]
+    public void CallEvasion()
+    {
+        _evasionState.CallState();
+    }
+    
+    [ContextMenu("End Alert")]
+    public void EndAlert()
+    {
+        _alertState.EndState();
+        CallEvasion();
+    }
+    
+    [ContextMenu("End Evasion")]
+    public void EndEvasion()
+    {
+        _evasionState.EndState();
     }
 }
