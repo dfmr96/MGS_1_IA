@@ -12,5 +12,7 @@ public enum StateEnum
    Steering,
    Evade,
    Patrol, 
-   Dead
+   Dead,
+   Evasion,
+   Jamming
 }
