@@ -10,22 +10,22 @@ public class LineOfSight : MonoBehaviour
     public LayerMask obsMask;
     public bool CheckRange(Transform target)
     {
-        float distanceToTarget = Vector3.Distance(target.position, Origin);
+        float distanceToTarget = UnityEngine.Vector3.Distance(target.position, Origin);
         return distanceToTarget <= range;
     }
     public bool CheckAngle(Transform target)
     {
         //B-A
-        Vector3 dirToTarget = target.position - Origin;
-        float angleToTarget = Vector3.Angle(dirToTarget, Forward);
+        UnityEngine.Vector3 dirToTarget = target.position - Origin;
+        float angleToTarget = UnityEngine.Vector3.Angle(dirToTarget, Forward);
         return angleToTarget <= angle / 2;
     }
     public bool CheckView(Transform target)
     {
-        Vector3 dirToTarget = target.position - Origin;
+        UnityEngine.Vector3 dirToTarget = target.position - Origin;
         return !Physics.Raycast(Origin, dirToTarget.normalized, dirToTarget.magnitude, obsMask);
     }
-    Vector3 Origin
+    UnityEngine.Vector3 Origin
     {
         get
         {
@@ -33,7 +33,7 @@ public class LineOfSight : MonoBehaviour
             return reference.position;
         }
     }
-    Vector3 Forward
+    UnityEngine.Vector3 Forward
     {
         get
         {

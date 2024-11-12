@@ -14,5 +14,7 @@ public enum StateEnum
    Patrol, 
    Dead,
    Evasion,
-   Jamming
+   Jamming,
+   Chase,
+   
 }

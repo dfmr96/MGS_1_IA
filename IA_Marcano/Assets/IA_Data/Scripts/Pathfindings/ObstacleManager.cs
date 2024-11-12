@@ -5,7 +5,7 @@ using UnityEngine;
 public class ObstacleManager : MonoBehaviour
 {
     public bool skipY = true;
-    Dictionary<Vector3, int> _obs = new Dictionary<Vector3, int>();
+    Dictionary<UnityEngine.Vector3, int> _obs = new Dictionary<UnityEngine.Vector3, int>();
     static ObstacleManager _instance;
     public static ObstacleManager Singleton
     {
@@ -59,15 +59,15 @@ public class ObstacleManager : MonoBehaviour
             }
         }
     }
-    public bool IsRightPos(Vector3 point)
+    public bool IsRightPos(UnityEngine.Vector3 point)
     {
         print(point);
         print(!_obs.ContainsKey(point));
         return !_obs.ContainsKey(point);
     }
-    List<Vector3> GetPointsInCollider(Collider coll, bool skipY = true)
+    List<UnityEngine.Vector3> GetPointsInCollider(Collider coll, bool skipY = true)
     {
-        List<Vector3> points = new List<Vector3>();
+        List<UnityEngine.Vector3> points = new List<UnityEngine.Vector3>();
         Bounds bounds = coll.bounds;
 
         int minX = Mathf.FloorToInt(bounds.min.x);
@@ -85,7 +85,7 @@ public class ObstacleManager : MonoBehaviour
             {
                 for (int z = minZ; z <= maxZ; z++)
                 {
-                    Vector3 point = new Vector3(x, y, z);
+                    UnityEngine.Vector3 point = new UnityEngine.Vector3(x, y, z);
                     if (bounds.Contains(point))
                     {
                         points.Add(point);

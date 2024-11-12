@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using PlayerScripts.PlayerStates;
@@ -9,9 +10,16 @@ public class PlayerController : MonoBehaviour
     FSM<StateEnum> _fsm;
     private PlayerModel _playerModel;
     private ITreeNode _root;
+
+    private void Awake()
+    {
+        Constants.SetPlayer(this);
+    }
+
     void Start()
     {
         _move = GetComponent<IMove>();
+        
         InitializedFSM();
         InitializeTree();
         _playerModel = GetComponent<PlayerModel>();
@@ -29,7 +37,7 @@ public class PlayerController : MonoBehaviour
         move.AddTransition(StateEnum.Idle, idle);
         move.AddTransition(StateEnum.Dead, dead);
 
-        //_fsm.SetInitial(idle);
+        _fsm.SetInit(idle);
     }
 
     void InitializeTree()

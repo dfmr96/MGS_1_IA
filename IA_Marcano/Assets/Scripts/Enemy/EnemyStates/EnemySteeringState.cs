@@ -30,7 +30,7 @@ namespace Enemy.EnemyStates
                 _evadeCooldown.RunCooldown();
             }
             
-            Vector3 dir = _steering.GetDir();
+            UnityEngine.Vector3 dir = _steering.GetDir();
             _move.Move(dir.normalized);
         }
 

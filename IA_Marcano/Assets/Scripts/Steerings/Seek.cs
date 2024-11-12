@@ -12,7 +12,7 @@ public class Seek : ISteering
         _target = target;
     }
 
-    public virtual Vector3 GetDir()
+    public virtual UnityEngine.Vector3 GetDir()
     {
         return (_target.position - _entity.position).normalized;
     }

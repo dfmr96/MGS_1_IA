@@ -24,6 +24,13 @@ public class AlertManager : MonoBehaviour
     [SerializeField] private TMP_Text _countdown;
     [SerializeField] private GameObject _stateBackground;
 
+    public bool isOnAlert => !_alertState.IsStateFinished;
+    public bool isOnEvasion => !_evasionState.IsStateFinished && !isOnAlert;
+
+    private Vector3 _playerLastPosition;
+    public Vector3 PlayerLastPosition => _playerLastPosition;
+    public Action OnLastPlayerPositionChanged;
+
     private void Awake()
     {
         if (Instance == null)
@@ -67,8 +74,8 @@ public class AlertManager : MonoBehaviour
         var evasion = new ActionTree(() => _fsm.Transition(StateEnum.Evasion));
         var alert = new ActionTree(() => _fsm.Transition(StateEnum.Alert));
 
-        var qInEvasion = new QuestionTree(() => _evasionState.IsStateFinished, idle, evasion);
-        var qInAlert = new QuestionTree(() => _alertState.IsStateFinished, qInEvasion, alert);
+        var qInEvasion = new QuestionTree(() => !_evasionState.IsStateFinished, evasion,idle);
+        var qInAlert = new QuestionTree(() => !_alertState.IsStateFinished, alert,qInEvasion);
         //var qInIdle = new QuestionTree(IsIdle, idle, qInAlert);
 
         _root = qInAlert;
@@ -119,5 +126,26 @@ public class AlertManager : MonoBehaviour
     public void EndEvasion()
     {
         _evasionState.EndState();
+    }
+
+    public void PlayerFound(Vector3 playerPoint)
+    {
+        if (_playerLastPosition != playerPoint)
+        {
+            _playerLastPosition = playerPoint;
+            OnLastPlayerPositionChanged?.Invoke();
+        }
+        CallAlert();
+    }
+    
+    [ContextMenu("PlayerFound")]
+    public void PlayerFound()
+    {
+        if (_playerLastPosition != Constants.Player.transform.position)
+        {
+            _playerLastPosition = Constants.Player.transform.position;
+            OnLastPlayerPositionChanged?.Invoke();
+        }
+        CallAlert();
     }
 }

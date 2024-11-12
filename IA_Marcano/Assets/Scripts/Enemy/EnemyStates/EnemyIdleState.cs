@@ -25,7 +25,7 @@ namespace Enemy.EnemyStates
 
         public override void Enter()
         {
-            Debug.Log("Entró en Idle");
+            Debug.Log($"{_entity.gameObject} entró en Idle");
             _isIdle = true;
             _enemyView.OnIdle(_isIdle);
             _entity.Stop();

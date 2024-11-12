@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StateFollowPoints<T> : State<T>
 {
-    protected List<Vector3> _waypoints;
+    protected List<UnityEngine.Vector3> _waypoints;
     int _index;
     protected Transform _entity;
     float _distanceToPoint = 0.2f;
@@ -17,7 +17,7 @@ public class StateFollowPoints<T> : State<T>
         _distanceToPoint = distanceToPoint;
         isFinishPath = true;
     }
-    public StateFollowPoints(Transform entity, List<Vector3> waypoints, float distanceToPoint = 0.2f)
+    public StateFollowPoints(Transform entity, List<UnityEngine.Vector3> waypoints, float distanceToPoint = 0.2f)
     {
         _entity = entity;
         _distanceToPoint = distanceToPoint;
@@ -31,7 +31,7 @@ public class StateFollowPoints<T> : State<T>
         base.Execute();
         Run();
     }
-    public void SetWaypoints(List<Vector3> newPoints)
+    public void SetWaypoints(List<UnityEngine.Vector3> newPoints)
     {
         if (newPoints.Count == 0) return;
         _waypoints = newPoints;
@@ -42,9 +42,9 @@ public class StateFollowPoints<T> : State<T>
     void Run()
     {
         if (IsFinishPath) return;
-        Vector3 point = _waypoints[_index];
+        UnityEngine.Vector3 point = _waypoints[_index];
         point.y = _entity.position.y; //Horizontal move
-        Vector3 dir = point - _entity.position;
+        UnityEngine.Vector3 dir = point - _entity.position;
         if (dir.magnitude < _distanceToPoint)
         {
             if (_index + 1 < _waypoints.Count)
@@ -58,7 +58,7 @@ public class StateFollowPoints<T> : State<T>
         }
         OnMove(dir.normalized);
     }
-    protected virtual void OnMove(Vector3 dir)
+    protected virtual void OnMove(UnityEngine.Vector3 dir)
     {
 
     }
@@ -68,9 +68,9 @@ public class StateFollowPoints<T> : State<T>
     }
     protected virtual void OnFinishPath()
     {
-        Debug.Log("camino  terminado");
+        //Debug.Log("camino  terminado");
         isFinishPath = true;
-        Debug.Log(isFinishPath);
+        //Debug.Log(isFinishPath);
     }
 
 }

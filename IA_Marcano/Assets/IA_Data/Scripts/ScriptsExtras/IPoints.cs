@@ -5,5 +5,5 @@ using UnityEngine;
 public interface IPoints
 {
     void SetWayPoints(List<Node> newPoints);
-    void SetWayPoints(List<Vector3> newPoints);
+    void SetWayPoints(List<UnityEngine.Vector3> newPoints);
 }

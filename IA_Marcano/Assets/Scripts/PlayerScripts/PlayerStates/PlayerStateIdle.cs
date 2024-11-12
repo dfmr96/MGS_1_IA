@@ -16,7 +16,7 @@ public class PlayerStateIdle : State<StateEnum>
     public override void Enter()
     {
         base.Enter();
-        _move.Move(Vector3.zero);
+        _move.Move(UnityEngine.Vector3.zero);
     }
     public override void Execute()
     {

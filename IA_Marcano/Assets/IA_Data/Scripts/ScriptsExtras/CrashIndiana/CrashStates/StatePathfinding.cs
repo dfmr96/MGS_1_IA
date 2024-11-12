@@ -21,7 +21,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         _anim = anim;
     }
 
-    protected override void OnMove(Vector3 dir)
+    protected override void OnMove(UnityEngine.Vector3 dir)
     {
         base.OnMove(dir);
         _move.Move(dir);
@@ -101,12 +101,12 @@ public class StatePathfinding<T> : StateFollowPoints<T>
     public void SetPathAStarPlusVector()
     {
         var start = GetPoint(_entity.position);
-        List<Vector3> path = ASTAR.Run<Vector3>(start, IsSatisfies, GetConnections, GetCost, Heuristic);
+        List<UnityEngine.Vector3> path = ASTAR.Run<UnityEngine.Vector3>(start, IsSatisfies, GetConnections, GetCost, Heuristic);
         path = ASTAR.CleanPath(path, InView);
         if (path.Count <= 0) return;
         SetWaypoints(path);
     }
-    Vector3 GetPoint(Vector3 point)
+    UnityEngine.Vector3 GetPoint(UnityEngine.Vector3 point)
     {
         return Vector3Int.RoundToInt(point);
     }
@@ -114,13 +114,13 @@ public class StatePathfinding<T> : StateFollowPoints<T>
     {
         return InView(granparent.transform.position, child.transform.position);
     }
-    bool InView(Vector3 granparent, Vector3 child)
+    bool InView(UnityEngine.Vector3 granparent, UnityEngine.Vector3 child)
     {
-        Debug.Log("RAYO");
-        Vector3 diff = child - granparent;
+        //Debug.Log("RAYO");
+        UnityEngine.Vector3 diff = child - granparent;
         return !Physics.Raycast(granparent, diff.normalized, diff.magnitude, Constants.obsMask);
     }
-    protected Node GetNearNode(Vector3 pos)
+    protected Node GetNearNode(UnityEngine.Vector3 pos)
     {
         var colls = Physics.OverlapSphere(pos, Constants.nearNodeDistance, Constants.nodeMask);
         Node nearNode = null;
@@ -130,10 +130,10 @@ public class StatePathfinding<T> : StateFollowPoints<T>
             var currentNode = colls[i].GetComponent<Node>();
             if (currentNode == null) continue;
 
-            var currentDistance = Vector3.Distance(currentNode.transform.position, pos);
+            var currentDistance = UnityEngine.Vector3.Distance(currentNode.transform.position, pos);
             if (nearNode == null || nearDistance > currentDistance)
             {
-                Vector3 dir = currentNode.transform.position - pos;
+                UnityEngine.Vector3 dir = currentNode.transform.position - pos;
                 if (Physics.Raycast(pos, dir.normalized, dir.magnitude, Constants.obsMask)) continue;
 
                 nearNode = currentNode;
@@ -146,13 +146,13 @@ public class StatePathfinding<T> : StateFollowPoints<T>
     float Heuristic(Node node)
     {
         float h = 0;
-        h += Vector3.Distance(node.transform.position, goal.transform.position);
+        h += UnityEngine.Vector3.Distance(node.transform.position, goal.transform.position);
         return h;
     }
-    float Heuristic(Vector3 node)
+    float Heuristic(UnityEngine.Vector3 node)
     {
         float h = 0;
-        h += Vector3.Distance(node, target.transform.position);
+        h += UnityEngine.Vector3.Distance(node, target.transform.position);
         return h;
     }
     float GetCost(Node parent, Node child)
@@ -161,7 +161,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         float multiplierTrap = 100;
 
         float cost = 0;
-        cost += Vector3.Distance(parent.transform.position, child.transform.position) * multiplierDistance;
+        cost += UnityEngine.Vector3.Distance(parent.transform.position, child.transform.position) * multiplierDistance;
         if (child.hasTrap)
         {
             cost += multiplierTrap;
@@ -169,20 +169,20 @@ public class StatePathfinding<T> : StateFollowPoints<T>
 
         return cost;
     }
-    float GetCost(Vector3 parent, Vector3 child)
+    float GetCost(UnityEngine.Vector3 parent, UnityEngine.Vector3 child)
     {
         float multiplierDistance = 1;
         float multiplierTrap = 100;
 
         float cost = 0;
-        cost += Vector3.Distance(parent, child) * multiplierDistance;
+        cost += UnityEngine.Vector3.Distance(parent, child) * multiplierDistance;
 
 
         return cost;
     }
-    List<Vector3> GetPathVector(List<Node> path)
+    List<UnityEngine.Vector3> GetPathVector(List<Node> path)
     {
-        List<Vector3> pathVector = new List<Vector3>();
+        List<UnityEngine.Vector3> pathVector = new List<UnityEngine.Vector3>();
         for (int i = 0; i < path.Count; i++)
         {
             pathVector.Add(path[i].transform.position);
@@ -193,25 +193,25 @@ public class StatePathfinding<T> : StateFollowPoints<T>
     {
         return current == goal;
     }
-    bool IsSatisfies(Vector3 current)
+    bool IsSatisfies(UnityEngine.Vector3 current)
     {
         var pointToGoal = GetPoint(target.transform.position);
-        return Vector3.Distance(current, pointToGoal) <= 1f;
+        return UnityEngine.Vector3.Distance(current, pointToGoal) <= 1f;
     }
     List<Node> GetConnections(Node current)
     {
         return current.neightbourds;
     }
-    List<Vector3> GetConnections(Vector3 current)
+    List<UnityEngine.Vector3> GetConnections(UnityEngine.Vector3 current)
     {
-        List<Vector3> connections = new List<Vector3>();
+        List<UnityEngine.Vector3> connections = new List<UnityEngine.Vector3>();
         for (int x = -1; x <= 1; x++)
         {
             for (int z = -1; z <= 1; z++)
             {
                 //if (x == z && x == -z) continue;
                 if (x == 0 && z == 0) continue;
-                var point = new Vector3(current.x + x, current.y, current.z + z);
+                var point = new UnityEngine.Vector3(current.x + x, current.y, current.z + z);
                 //if (!InView(current, point)) continue;
                 if (!ObstacleManager.Singleton.IsRightPos(point)) continue;
                 connections.Add(point);

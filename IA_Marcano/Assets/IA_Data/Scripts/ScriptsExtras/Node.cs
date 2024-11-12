@@ -13,10 +13,10 @@ public class Node : MonoBehaviour
     private void Start()
     {
         mat = GetComponent<Renderer>().material;
-        GetNeightbourd(Vector3.right);
-        GetNeightbourd(Vector3.left);
-        GetNeightbourd(Vector3.forward);
-        GetNeightbourd(Vector3.back);
+        GetNeightbourd(UnityEngine.Vector3.right);
+        GetNeightbourd(UnityEngine.Vector3.left);
+        GetNeightbourd(UnityEngine.Vector3.forward);
+        GetNeightbourd(UnityEngine.Vector3.back);
     }
     private void Update()
     {

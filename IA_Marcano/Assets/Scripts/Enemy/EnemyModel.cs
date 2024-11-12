@@ -6,8 +6,7 @@ using UnityEngine;
 public class EnemyModel : Entity, IAttack
 {
     public LayerMask attackMask;
-    [SerializeField]
-    LineOfSight _attackOfSight;
+    [SerializeField] LineOfSight _attackOfSight;
     Action _onAttack;
     public float attackCooldownTime;
     Cooldown _attackCooldown;
@@ -16,14 +15,7 @@ public class EnemyModel : Entity, IAttack
     public float radius;
     public float angle;
     public float personalArea;
-    public LayerMask obsMask;
     ObstacleAvoidance _obs;
-    protected override void Awake()
-    {
-        base.Awake();
-        _attackCooldown = new Cooldown(attackCooldownTime);
-        _obs = new ObstacleAvoidance(transform, radius, angle, personalArea, obsMask);
-    }
 
     public float GetAttackRange => _attackOfSight.range;
 
@@ -31,6 +23,12 @@ public class EnemyModel : Entity, IAttack
     public Cooldown AttackCooldown { get => _attackCooldown; }
 
     //Collider[] _enemies = new Collider[5];
+    protected override void Awake()
+    {
+        base.Awake();
+        _attackCooldown = new Cooldown(attackCooldownTime);
+        _obs = new ObstacleAvoidance(transform, radius, angle, personalArea, Constants.obsMask);
+    }
     public void Attack()
     {
         Collider[] colls = Physics.OverlapSphere(transform.position, _attackOfSight.range, attackMask);
@@ -51,7 +49,7 @@ public class EnemyModel : Entity, IAttack
         _attackCooldown.ResetCooldown();
         _onAttack();
     }
-    public override void Move(Vector3 dir)
+    public override void Move(UnityEngine.Vector3 dir)
     {
         dir = _obs.GetDir(dir, false);
         dir.y = 0;
