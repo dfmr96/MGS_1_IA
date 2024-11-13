@@ -10,6 +10,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
     public Node start;
     public Node goal;
     public Transform target;
+    private List<Node> path;
     public StatePathfinding(Transform entity, IMove move, Animator anim, float distanceToPoint = 0.2F) : base(entity, distanceToPoint)
     {
         _move = move;
@@ -71,11 +72,12 @@ public class StatePathfinding<T> : StateFollowPoints<T>
     }
     public void SetPathAStarPlus()
     {
-        var start = GetNearNode(_entity.position);
+        List<Node> currentPath = path;
+        start = GetNearNode(_entity.position);
         goal = GetNearNode(target.position);
-        List<Node> path = ASTAR.Run<Node>(start, IsSatisfies, GetConnections, GetCost, Heuristic);
+        path = ASTAR.Run<Node>(start, IsSatisfies, GetConnections, GetCost, Heuristic);
         path = ASTAR.CleanPath(path, InView);
-        if (path.Count <= 0) return;
+        if (path.Count <= 0 || currentPath == path) return;
         SetWaypoints(GetPathVector(path));
     }
     

@@ -15,12 +15,12 @@ public class Pursuit : ISteering
         _timePrediction = timePrediction;
     }
 
-    public UnityEngine.Vector3 GetDir()
+    public Vector3 GetDir()
     {
-        UnityEngine.Vector3 point = _target.position + _target.transform.forward * (_target.velocity.magnitude * _timePrediction);
-        UnityEngine.Vector3 dirToPoint = (point - _entity.position).normalized;
-        UnityEngine.Vector3 dirToTarget = (_target.position - _entity.position).normalized;
-        if (UnityEngine.Vector3.Dot(dirToPoint, dirToTarget) < 0)
+        Vector3 point = _target.position + _target.transform.forward * (_target.velocity.magnitude * _timePrediction);
+        Vector3 dirToPoint = (point - _entity.position).normalized;
+        Vector3 dirToTarget = (_target.position - _entity.position).normalized;
+        if (Vector3.Dot(dirToPoint, dirToTarget) < 0)
         {
             return dirToTarget;
         }

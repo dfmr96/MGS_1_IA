@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
 
 public class StateFollowPoints<T> : State<T>
 {
@@ -31,20 +33,22 @@ public class StateFollowPoints<T> : State<T>
         base.Execute();
         Run();
     }
-    public void SetWaypoints(List<UnityEngine.Vector3> newPoints)
+    public void SetWaypoints(List<Vector3> newPoints)
     {
-        if (newPoints.Count == 0) return;
+        if (newPoints.Count == 0 || newPoints == _waypoints) return;
         _waypoints = newPoints;
-        _index = 0;
+        Vector3 dirToPoint = (_waypoints[0] - _entity.position).normalized;
+        bool skipFirstPoint = Vector3.Dot(dirToPoint, _entity.forward) <= 0;
+        _index = skipFirstPoint ? 1 : 0;
         isFinishPath = false;
         OnStartPath();
     }
     void Run()
     {
         if (IsFinishPath) return;
-        UnityEngine.Vector3 point = _waypoints[_index];
+        Vector3 point = _waypoints[_index];
         point.y = _entity.position.y; //Horizontal move
-        UnityEngine.Vector3 dir = point - _entity.position;
+        Vector3 dir = point - _entity.position;
         if (dir.magnitude < _distanceToPoint)
         {
             if (_index + 1 < _waypoints.Count)

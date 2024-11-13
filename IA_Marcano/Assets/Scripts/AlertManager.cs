@@ -130,12 +130,17 @@ public class AlertManager : MonoBehaviour
 
     public void PlayerFound(Vector3 playerPoint)
     {
+        UpdatePlayerLastPosition(playerPoint);
+        CallAlert();
+    }
+
+    public void UpdatePlayerLastPosition(Vector3 playerPoint)
+    {
         if (_playerLastPosition != playerPoint)
         {
             _playerLastPosition = playerPoint;
             OnLastPlayerPositionChanged?.Invoke();
         }
-        CallAlert();
     }
     
     [ContextMenu("PlayerFound")]

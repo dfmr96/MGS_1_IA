@@ -114,8 +114,58 @@ Transform:
   - {fileID: 5670929212191074428}
   - {fileID: 393032002}
   m_Father: {fileID: 5670929211946148408}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &48182818170530171
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4956672641368368522}
+  - component: {fileID: 2425891629761250794}
+  m_Layer: 10
+  m_Name: AgroLoS
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4956672641368368522
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48182818170530171}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5670929211946148408}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2425891629761250794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 48182818170530171}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02def202228b1624880cc642ef2e659a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reference: {fileID: 1936962743398969238}
+  range: 3
+  angle: 90
+  obsMask:
+    serializedVersion: 2
+    m_Bits: 264
 --- !u!1 &179120141627152197
 GameObject:
   m_ObjectHideFlags: 0
@@ -178,7 +228,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5670929211946148408}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &834892772157971441
 MonoBehaviour:
@@ -193,8 +243,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reference: {fileID: 1936962743398969238}
-  range: 8
-  angle: 90
+  range: 7
+  angle: 45
   obsMask:
     serializedVersion: 2
     m_Bits: 264
@@ -746,6 +796,7 @@ Transform:
   - {fileID: 4140486933159989129}
   - {fileID: 208118714277675692}
   - {fileID: 1936962743398969238}
+  - {fileID: 4956672641368368522}
   - {fileID: 2115210262669044260}
   - {fileID: 3379766351594277481}
   - {fileID: 1571620560}
@@ -1024,7 +1075,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5670929211946148408}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6340595076236259281
 MonoBehaviour:

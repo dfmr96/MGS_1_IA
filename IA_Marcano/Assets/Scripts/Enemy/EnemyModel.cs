@@ -10,6 +10,7 @@ public class EnemyModel : Entity, IAttack
     Action _onAttack;
     public float attackCooldownTime;
     Cooldown _attackCooldown;
+    public float aggroBuffer;
     
     [Header("Obstacle Avoidance")]
     public float radius;
