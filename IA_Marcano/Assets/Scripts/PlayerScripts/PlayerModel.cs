@@ -27,4 +27,5 @@ public class PlayerModel : Entity
             OnDead?.Invoke();
         }
     }
+    
 }

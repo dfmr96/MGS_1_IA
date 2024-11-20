@@ -22,7 +22,7 @@ namespace Enemy.EnemyStates
         public override void Enter()
         {
             base.Enter();
-            _entity.SetSpeed(_enemyModel.runSpeed);
+            _entity.SetSpeed(_enemyModel.RunSpeed);
             _enemyView.OnRunning(true);
             AlertManager.Instance.TryUpdatePlayerLastPosition();
             SetPathAStarPlus(AlertManager.Instance.PlayerLastPosition);

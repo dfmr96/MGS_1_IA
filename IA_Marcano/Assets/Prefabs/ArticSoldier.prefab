@@ -868,13 +868,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7340e9e015906ed4b9224a84f1e1ba40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0.6
+  runSpeed: 2.2
   walkSpeed: 1.2
   attackMask:
     serializedVersion: 2
     m_Bits: 64
-  _attackOfSight: {fileID: 834892772157971441}
+  idleTime: 2
+  attackOfSight: {fileID: 834892772157971441}
   attackCooldownTime: 3
   aggroBuffer: 3
+  damage: 1
+  maxHealth: 3
+  _aggroLoS: {fileID: 2425891629761250794}
+  _attackLoS: {fileID: 834892772157971441}
+  _detectionLoS: {fileID: 6340595076236259281}
   radius: 0.5
   angle: 200
   personalArea: 0.25
@@ -890,27 +898,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e89ce9859de22b4e9b8263f4ce98a83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemyModel: {fileID: 3034793643773567379}
-  player: {fileID: 0}
-  target: {fileID: 0}
-  aggroLoS: {fileID: 2425891629761250794}
-  attackLoS: {fileID: 834892772157971441}
-  detectionLoS: {fileID: 6340595076236259281}
-  timePrediction: 3
-  _fsm:
-    _currentStateName: 
-  idleTime: 3
-  idleTimer: 0
+  health: 5
   waypoints:
   - {fileID: 0}
   - {fileID: 0}
+  fsm:
+    _currentStateName: 
   idleState:
     _idleTimer: 0
     _idleTime: 3
-  _pursuitState:
-    _aggroTimer: 0
-    _isAggroBufferActive: 0
-  health: 0
+  pursuitState:
+    aggroTimer: 0
+    isAggroBufferActive: 0
+  chaseState:
+    start: {fileID: 0}
+    goal: {fileID: 0}
+    target: {fileID: 0}
 --- !u!114 &3520894405125790621
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -935,7 +938,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0

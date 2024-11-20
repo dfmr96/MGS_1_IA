@@ -24,7 +24,7 @@ namespace Enemy.EnemyStates
         public override void Enter()
         {
             SetPathAStarPlus(_patrolWaypoints[_index].transform.position);
-            _entity.SetSpeed(_enemyModel.walkSpeed);
+            _entity.SetSpeed(_enemyModel.WalkSpeed);
             isFinishPath = false;
             _enemyView.OnPatrol(true);
         }

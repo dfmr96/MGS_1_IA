@@ -268,6 +268,10 @@ PrefabInstance:
       propertyPath: waypoints.Array.data[3]
       value: 
       objectReference: {fileID: 545908708}
+    - target: {fileID: 3034793643773567379, guid: 84f260ea1cac3fd4fb53ad6acbcc58ba, type: 3}
+      propertyPath: maxHealth
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5042026889806346370, guid: 84f260ea1cac3fd4fb53ad6acbcc58ba, type: 3}
       propertyPath: m_Name
       value: Soldier C
@@ -327,6 +331,10 @@ PrefabInstance:
     - target: {fileID: 5670929212191074428, guid: 84f260ea1cac3fd4fb53ad6acbcc58ba, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6558876716147607205, guid: 84f260ea1cac3fd4fb53ad6acbcc58ba, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84f260ea1cac3fd4fb53ad6acbcc58ba, type: 3}
@@ -15042,6 +15050,10 @@ PrefabInstance:
       propertyPath: waypoints.Array.data[3]
       value: 
       objectReference: {fileID: 1025131468}
+    - target: {fileID: 3034793643773567379, guid: 84f260ea1cac3fd4fb53ad6acbcc58ba, type: 3}
+      propertyPath: maxHealth
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5042026889806346370, guid: 84f260ea1cac3fd4fb53ad6acbcc58ba, type: 3}
       propertyPath: m_Name
       value: Soldier B
@@ -15101,6 +15113,10 @@ PrefabInstance:
     - target: {fileID: 5670929212191074428, guid: 84f260ea1cac3fd4fb53ad6acbcc58ba, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 6558876716147607205, guid: 84f260ea1cac3fd4fb53ad6acbcc58ba, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84f260ea1cac3fd4fb53ad6acbcc58ba, type: 3}
@@ -38346,10 +38362,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 1841634407}
     m_Modifications:
     - target: {fileID: 1544053115832965984, guid: 84f260ea1cac3fd4fb53ad6acbcc58ba, type: 3}
-      propertyPath: health
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1544053115832965984, guid: 84f260ea1cac3fd4fb53ad6acbcc58ba, type: 3}
       propertyPath: waypoints.Array.data[0]
       value: 
       objectReference: {fileID: 2096960083}
@@ -38360,10 +38372,6 @@ PrefabInstance:
     - target: {fileID: 5042026889806346370, guid: 84f260ea1cac3fd4fb53ad6acbcc58ba, type: 3}
       propertyPath: m_Name
       value: Soldier A
-      objectReference: {fileID: 0}
-    - target: {fileID: 5042026889806346370, guid: 84f260ea1cac3fd4fb53ad6acbcc58ba, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5670929211946148408, guid: 84f260ea1cac3fd4fb53ad6acbcc58ba, type: 3}
       propertyPath: m_RootOrder

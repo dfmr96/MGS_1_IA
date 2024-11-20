@@ -16,11 +16,10 @@ namespace Enemy.EnemyStates
         private EnemyView _enemyView;
         private EnemyModel _enemyModel;
 
-        public EnemyIdleState(EnemyModel enemyModel, Entity entity, float idleTime, float idleTimer, EnemyView enemyView)
+        public EnemyIdleState(EnemyModel enemyModel, Entity entity, float idleTime, EnemyView enemyView)
         {
             _entity = entity;
             _idleTime = idleTime;
-            _idleTimer = idleTimer;
             _enemyView = enemyView;
             _enemyModel = enemyModel;
         }
@@ -29,7 +28,7 @@ namespace Enemy.EnemyStates
         {
             Debug.Log($"{_entity.gameObject} entró en Idle");
             _isIdle = true;
-            _entity.SetSpeed(_enemyModel.walkSpeed);
+            _entity.SetSpeed(_enemyModel.WalkSpeed);
             _enemyView.OnIdle(true);
             _entity.Stop();
         }

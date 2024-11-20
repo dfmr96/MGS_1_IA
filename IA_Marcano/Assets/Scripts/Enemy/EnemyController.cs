@@ -1,119 +1,127 @@
 using System.Collections.Generic;
 using Enemy.EnemyStates;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Enemy
 {
     public class EnemyController : MonoBehaviour
     {
-        [SerializeField] private EnemyModel _enemyModel;
-        [SerializeField] private EnemyAudio _enemyAudio;
-        public PlayerController player;
-        public Rigidbody target;
-        public LineOfSight aggroLoS;
-        public LineOfSight attackLoS;
-        public LineOfSight detectionLoS;
-        public float timePrediction;
-        [SerializeField] FSM<StateEnum> _fsm;
-        IAttack _entityAttack;
-        ITreeNode _root;
-        ISteering _steering;
-        Cooldown _evadeCooldown;
-        public float idleTime;
-        public float idleTimer;
+        //Components
+        private PlayerController _player;
+        private Rigidbody _playerRb;
+        private IAttack _entityAttack;
+        private ITreeNode _root;
+        private ISteering _steering;
+        private Cooldown _evadeCooldown;
         private EnemyView _enemyView;
-
+        private EnemyModel _enemyModel;
+        private EnemyAudio _enemyAudio;
+        
+        //Stats
+        [SerializeField] private float health;
+        private float _idleTime;
+        
+        //LoS
+        private LineOfSight _aggroLoS;
+        private LineOfSight _attackLoS;
+        private LineOfSight _detectionLoS;
+        
         [SerializeField] private List<Node> waypoints;
-        [SerializeField] private EnemyPatrolState patrolState;
+        
+        //States
+        [Header("States")]  
+        [SerializeField] private FSM<StateEnum> fsm;
+        [SerializeField] private EnemyPatrolState _patrolState;
         [SerializeField] private EnemyIdleState idleState;
-        [SerializeField] private EnemyPursuitState _pursuitState;
+        [SerializeField] private EnemyPursuitState pursuitState;
         [SerializeField] private EnemyChaseState chaseState;
 
-        [SerializeField] private float health;
         private bool IsDead => health <= 0;
 
 
         private void Start()
         {
-            player = Constants.Player;
-            target = player.GetComponent<Rigidbody>();
-            _enemyView = GetComponent<EnemyView>();
-            _entityAttack = GetComponent<IAttack>();
-            _enemyAudio = GetComponent<EnemyAudio>();
+            InitComponents();
+            InitLoS();
             InitializedFSM();
             InitializedTree();
         }
 
-        void InitializedFSM()
+        private void InitComponents()
         {
-            //var pursuit = new Pursuit(transform, target, timePrediction);
-            var evade = new Evade(transform, target, timePrediction);
+            _player = Constants.Player;
+            _playerRb = _player.GetComponent<Rigidbody>();
+            _enemyView = GetComponent<EnemyView>();
+            _entityAttack = GetComponent<IAttack>();
+            _enemyAudio = GetComponent<EnemyAudio>();
+            _enemyModel = GetComponent<EnemyModel>();
+            _idleTime = _enemyModel.IdleTime;
+            health = _enemyModel.MaxHealth;
+        }
 
-            idleState = new EnemyIdleState(_enemyModel, _enemyModel, idleTime, idleTimer, _enemyView);
-            //var steering = new EnemySteeringState(_enemyModel,pursuit);
-            _pursuitState = new EnemyPursuitState(_enemyModel, target, 0.5f, _enemyView);
+        private void InitLoS()
+        {
+            _aggroLoS = _enemyModel.AggroLoS;
+            _attackLoS = _enemyModel.AttackLoS;
+            _detectionLoS = _enemyModel.DetectionLoS;
+        }
+
+        private void InitializedFSM()
+        {
+            idleState = new EnemyIdleState(_enemyModel, _enemyModel, _idleTime, _enemyView);
+            pursuitState = new EnemyPursuitState(_enemyModel, _playerRb, 0.5f, _enemyView);
             var attackState = new EnemyAttackState(_entityAttack, _enemyModel, _enemyView);
-            patrolState = new EnemyPatrolState(_enemyModel, _enemyModel, _enemyModel, _enemyView, waypoints);
+            _patrolState = new EnemyPatrolState(_enemyModel, _enemyModel, _enemyModel, _enemyView, waypoints);
             chaseState = new EnemyChaseState(_enemyModel, _enemyModel.transform, _enemyModel, _enemyView);
             var deadState = new EnemyDeadState(_enemyView, _enemyAudio);
 
-
             idleState.AddTransition(StateEnum.Attack, attackState);
-            idleState.AddTransition(StateEnum.Pursuit, _pursuitState);
-            idleState.AddTransition(StateEnum.Patrol, patrolState);
+            idleState.AddTransition(StateEnum.Pursuit, pursuitState);
+            idleState.AddTransition(StateEnum.Patrol, _patrolState);
             idleState.AddTransition(StateEnum.Chase, chaseState);
             idleState.AddTransition(StateEnum.Dead, deadState);
 
-            _pursuitState.AddTransition(StateEnum.Attack, attackState);
-            _pursuitState.AddTransition(StateEnum.Idle, idleState);
-            _pursuitState.AddTransition(StateEnum.Patrol, patrolState);
-            _pursuitState.AddTransition(StateEnum.Chase, chaseState);
-            _pursuitState.AddTransition(StateEnum.Dead, deadState);
+            pursuitState.AddTransition(StateEnum.Attack, attackState);
+            pursuitState.AddTransition(StateEnum.Idle, idleState);
+            pursuitState.AddTransition(StateEnum.Patrol, _patrolState);
+            pursuitState.AddTransition(StateEnum.Chase, chaseState);
+            pursuitState.AddTransition(StateEnum.Dead, deadState);
 
-            attackState.AddTransition(StateEnum.Pursuit, _pursuitState);
-            attackState.AddTransition(StateEnum.Patrol, patrolState);
+            attackState.AddTransition(StateEnum.Pursuit, pursuitState);
+            attackState.AddTransition(StateEnum.Patrol, _patrolState);
             attackState.AddTransition(StateEnum.Idle, idleState);
             attackState.AddTransition(StateEnum.Chase, chaseState);
             attackState.AddTransition(StateEnum.Dead, deadState);
 
-            patrolState.AddTransition(StateEnum.Idle, idleState);
-            patrolState.AddTransition(StateEnum.Pursuit, _pursuitState);
-            patrolState.AddTransition(StateEnum.Attack, attackState);
-            patrolState.AddTransition(StateEnum.Chase, chaseState);
-            patrolState.AddTransition(StateEnum.Dead, deadState);
+            _patrolState.AddTransition(StateEnum.Idle, idleState);
+            _patrolState.AddTransition(StateEnum.Pursuit, pursuitState);
+            _patrolState.AddTransition(StateEnum.Attack, attackState);
+            _patrolState.AddTransition(StateEnum.Chase, chaseState);
+            _patrolState.AddTransition(StateEnum.Dead, deadState);
 
             chaseState.AddTransition(StateEnum.Idle, idleState);
-            chaseState.AddTransition(StateEnum.Patrol, patrolState);
-            chaseState.AddTransition(StateEnum.Pursuit, _pursuitState);
+            chaseState.AddTransition(StateEnum.Patrol, _patrolState);
+            chaseState.AddTransition(StateEnum.Pursuit, pursuitState);
             chaseState.AddTransition(StateEnum.Attack, attackState);
             chaseState.AddTransition(StateEnum.Dead, deadState);
-            
 
-            _fsm = new FSM<StateEnum>(idleState);
+            fsm = new FSM<StateEnum>(idleState);
         }
 
-        void InitializedTree()
+        private void InitializedTree()
         {
-            var idle = new ActionTree(() => _fsm.Transition(StateEnum.Idle));
-            var pursuit = new ActionTree(() => _fsm.Transition(StateEnum.Pursuit));
-            var attack = new ActionTree(() => _fsm.Transition(StateEnum.Attack));
-            var patrol = new ActionTree(() =>
-            {
-                Debug.Log($"{gameObject.name} entró a Patrol ");
-                _fsm.Transition(StateEnum.Patrol);
-            });
-            var chase = new ActionTree(() =>
-            {
-                _fsm.Transition(StateEnum.Chase);
-                Debug.Log($"{gameObject.name} entró a Chase");
-            });
-            var dead = new ActionTree(() => _fsm.Transition(StateEnum.Dead));
+            var idle = new ActionTree(() => fsm.Transition(StateEnum.Idle));
+            var pursuit = new ActionTree(() => fsm.Transition(StateEnum.Pursuit));
+            var attack = new ActionTree(() => fsm.Transition(StateEnum.Attack));
+            var patrol = new ActionTree(() => fsm.Transition(StateEnum.Patrol));
+            var chase = new ActionTree(() => fsm.Transition(StateEnum.Chase));
+            var dead = new ActionTree(() => fsm.Transition(StateEnum.Dead));
             
             var qInIdle = new QuestionTree(() => idleState.IsIdle, idle, patrol);
-            var qInPatrol = new QuestionTree(() => patrolState.IsFinishPath, qInIdle, patrol);
+            var qInPatrol = new QuestionTree(() => _patrolState.IsFinishPath, qInIdle, patrol);
             var qInViewNoAttackRange = new QuestionTree(InAggro, pursuit, chase);
-            var qAttackRange = new QuestionTree(InAttackRange, attack, qInViewNoAttackRange); //TODO Pathfind
-            //var qInView = new QuestionTree(InView, chase, qInPatrol);
+            var qAttackRange = new QuestionTree(InAttackRange, attack, qInViewNoAttackRange);
             var qInViewNoEvasion = new QuestionTree(InDetectionView, pursuit, qInPatrol);
             var qInViewEvasion = new QuestionTree(InAggro, pursuit, chase); //TODO cambiar de chase a search
             var qIsOnEvasion =
@@ -121,24 +129,15 @@ namespace Enemy
             var qIsOnAlert = new QuestionTree(() => AlertManager.Instance.isOnAlert, qAttackRange, qIsOnEvasion);
 
 
-            var qIsExist = new QuestionTree(() => player != null, qIsOnAlert, qInPatrol);
+            var qIsExist = new QuestionTree(() => _player != null, qIsOnAlert, qInPatrol);
             var qIsAlive = new QuestionTree(() => IsDead, dead, qIsExist); 
 
             _root = qIsAlive;
         }
 
-        public bool InView(LineOfSight los)
+        private bool InView(LineOfSight los)
         {
-            bool inView = los.CheckRange(player.transform)
-                          && los.CheckAngle(player.transform)
-                          && los.CheckView(player.transform);
-            if (inView)
-            {
-                AlertManager.Instance.CallAlert();
-                return true;
-            }
-
-            return false;
+            return _enemyModel.InView(los, _player.transform);
         }
         
         //Controller
@@ -149,52 +148,36 @@ namespace Enemy
         //Los
         //  lastFrame == currentFrame
 
-        public bool InDetectionView()
+        private bool InDetectionView()
         {
-            return InView(detectionLoS);
+            return InView(_detectionLoS);
         }
 
-        public void InAggroBuffer()
+        private bool InAggro()
         {
-            //Physics.OverlapSphere()
-        }
-
-        public bool InAggro()
-        {
-            if (InView(aggroLoS) || _pursuitState.IsAggroBufferActive)
-            {
-                return true;
-            }
-
-            return false;
+            return InView(_aggroLoS) || pursuitState.IsAggroBufferActive;
         }
 
         bool InAttackRange()
         {
-            return InView(attackLoS);
+            return InView(_attackLoS);
         }
 
         private void Update()
         {
-            _fsm.OnUpdate();
+            fsm.OnUpdate();
             _root.Execute();
         }
 
         private void LateUpdate()
         {
-            _fsm.OnLateUpdate();
+            fsm.OnLateUpdate();
         }
 
         public void TakeDamage(float damage)
         {
             health -= damage;
             _enemyAudio.PlayRandomDeathAudio();
-
-            if (health <= 0)
-            {
-                Debug.Log("Enemigo muerto");
-                //TODO Instanciar objeto
-            }
         }
     }
 }

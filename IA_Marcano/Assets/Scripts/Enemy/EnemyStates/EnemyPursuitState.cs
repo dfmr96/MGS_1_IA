@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Enemy.EnemyStates
 {
@@ -8,36 +9,36 @@ namespace Enemy.EnemyStates
     {
         private EnemyModel _enemyModel;
         private EnemyView _enemyView;
-        private float _aggroBuffer;
-        [SerializeField] private float _aggroTimer;
-        [SerializeField] private bool _isAggroBufferActive;
         private Entity _entity;
-        public bool IsAggroBufferActive => _isAggroBufferActive;
+        private float _aggroBuffer;
+        [SerializeField] private float aggroTimer;
+        [SerializeField] private bool isAggroBufferActive;
+        public bool IsAggroBufferActive => isAggroBufferActive;
         public EnemyPursuitState(EnemyModel enemyModel, Rigidbody rb, float timePrediction, EnemyView enemyView) : base(enemyModel, new Pursuit(enemyModel.transform, rb, timePrediction))
         {
             _enemyView = enemyView;
             _enemyModel = enemyModel;
             _entity = enemyModel.GetComponent<Entity>();
-            _aggroBuffer = enemyModel.aggroBuffer;
+            _aggroBuffer = enemyModel.AggroBuffer;
         }
 
         public override void Enter()
         {
             base.Enter();
-            _entity.SetSpeed(_enemyModel.runSpeed);
-            _aggroTimer = _aggroBuffer;
-            _isAggroBufferActive = true;
+            _entity.SetSpeed(_enemyModel.RunSpeed);
+            aggroTimer = _aggroBuffer;
+            isAggroBufferActive = true;
             _enemyView.OnRunning(true);
         }
 
         public override void Execute()
         {
             base.Execute();
-            _aggroTimer -= Time.deltaTime;
+            aggroTimer -= Time.deltaTime;
 
-            if (_aggroTimer <= 0)
+            if (aggroTimer <= 0)
             {
-                _isAggroBufferActive = false;
+                isAggroBufferActive = false;
             }
         }
 
