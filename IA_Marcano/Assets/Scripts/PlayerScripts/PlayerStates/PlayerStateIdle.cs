@@ -2,36 +2,51 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerStateIdle : State<StateEnum>
+public class PlayerStateIdle<T> : State<T>
 {
-    FSM<StateEnum> _fsm;
+    private T _inputToMove;
+    private T _inputToAim;
     IMove _move;
+    private readonly T _inputToDeath;
+    private readonly PlayerModel _playerModel;
 
-    public PlayerStateIdle(FSM<StateEnum> fsm, IMove move)
+    public PlayerStateIdle(FSM<T> fsm, T inputToMove, IMove move, T inputToAim, T inputToDeath, PlayerModel playerModel)
     {
         _fsm = fsm;
+        _inputToMove = inputToMove;
+        _inputToAim = inputToAim;
+        _inputToDeath = inputToDeath;
+        _playerModel = playerModel;
         _move = move;
+        _playerModel.OnDead += ToDeath;
     }
 
     public override void Enter()
     {
         base.Enter();
-        _move.Move(UnityEngine.Vector3.zero);
+        //_move.Move(Vector3.zero);
     }
+
     public override void Execute()
     {
         base.Execute();
-        var h = Input.GetAxis("Horizontal"); //TODO INPUT MANAGER
-        var v = Input.GetAxis("Vertical"); //TODO INPUT MANAGER
-
-        if (h != 0 || v != 0) //TODO INPUT MANAGER
+        var h = Input.GetAxis("Horizontal");
+        var v = Input.GetAxis("Vertical");
+        Debug.Log($"{h},{v}");
+        if (h != 0 || v != 0)
         {
-            _fsm.Transition(StateEnum.Move); //TODO CAMBIAR A DECISION TREE
+            _fsm.Transition(_inputToMove);
         }
-        if (Input.GetKeyDown(KeyCode.Space)) //TODO INPUT MANAGER
+
+        if (Input.GetKeyDown(KeyCode.X))
         {
-            _fsm.Transition(StateEnum.Spin); //TODO CAMBIAR A DECISION TREE
+            Debug.Log("Intenta entrar a Aim");
+            _fsm.Transition(_inputToAim);
         }
     }
 
+    public void ToDeath()
+    {
+        _fsm.Transition(_inputToDeath);
+    }
 }

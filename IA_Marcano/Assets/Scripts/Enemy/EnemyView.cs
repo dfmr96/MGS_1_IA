@@ -18,10 +18,6 @@ public class EnemyView : MonoBehaviour
         _attack = GetComponent<IAttack>();
         _anim = GetComponent<Animator>();
     }
-    private void Start()
-    {
-        _attack.OnAttack += OnAttackAnim;
-    }
     private void Update()
     {
         Anim.SetFloat("Vel", _rb.velocity.magnitude);
@@ -39,6 +35,21 @@ public class EnemyView : MonoBehaviour
     public void OnPatrol(bool isPatrol)
     {
         Anim.SetBool("isPatrol", isPatrol);
+    }
+
+    public void OnDead(bool isDead)
+    {
+        Anim.SetBool("isDead", isDead);
+    }
+
+    public void OnAttack(bool isAttacking)
+    {
+        Anim.SetBool("isAttack", isAttacking);
+    }
+
+    public void OnRunning(bool isRunning)
+    {
+        Anim.SetBool("isRunning", isRunning);
     }
 
     public void TurnAround()

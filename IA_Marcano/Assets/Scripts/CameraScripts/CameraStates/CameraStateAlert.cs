@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class CameraStateAlert : State<StateEnum>
 {
-    IAlert _alert;
-
-    public CameraStateAlert(IAlert alert)
+    private CameraModel _cameraModel;
+    private Transform _target;
+    public CameraStateAlert(CameraModel camModel, Transform target)
     {
-        _alert = alert;
+        _cameraModel = camModel;
+        _target = target;
     }
     public override void Enter()
     {
         base.Enter();
-        _alert.IsAlert = true;
-        //TODO Alert others
-        Debug.Log("ALERT ENTER");
     }
-    //public override void Exit()
-    //{
-    //    //base.Exit(); T
-    //    _alert.IsAlert = false;
-    //} TODO 
 
+    public override void Execute()
+    {
+        base.Execute();
+        _cameraModel.SetRotation(_target);
+        //Los
+    }
+    //Get
 }

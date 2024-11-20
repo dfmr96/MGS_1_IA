@@ -6,22 +6,28 @@ namespace Enemy.EnemyStates
     [Serializable]
     public class EnemyPursuitState : EnemySteeringState
     {
-        private EnemyModel _entity;
+        private EnemyModel _enemyModel;
+        private EnemyView _enemyView;
         private float _aggroBuffer;
         [SerializeField] private float _aggroTimer;
         [SerializeField] private bool _isAggroBufferActive;
+        private Entity _entity;
         public bool IsAggroBufferActive => _isAggroBufferActive;
-        public EnemyPursuitState(EnemyModel entity, Rigidbody rb, float timePrediction) : base(entity, new Pursuit(entity.transform, rb, timePrediction))
+        public EnemyPursuitState(EnemyModel enemyModel, Rigidbody rb, float timePrediction, EnemyView enemyView) : base(enemyModel, new Pursuit(enemyModel.transform, rb, timePrediction))
         {
-            _entity = entity;
-            _aggroBuffer = entity.aggroBuffer;
+            _enemyView = enemyView;
+            _enemyModel = enemyModel;
+            _entity = enemyModel.GetComponent<Entity>();
+            _aggroBuffer = enemyModel.aggroBuffer;
         }
 
         public override void Enter()
         {
             base.Enter();
+            _entity.SetSpeed(_enemyModel.runSpeed);
             _aggroTimer = _aggroBuffer;
             _isAggroBufferActive = true;
+            _enemyView.OnRunning(true);
         }
 
         public override void Execute()
@@ -38,7 +44,8 @@ namespace Enemy.EnemyStates
         public override void Sleep()
         {
             base.Sleep();
-            AlertManager.Instance.UpdatePlayerLastPosition(Constants.Player.transform.position);
+            _enemyView.OnRunning(false);
+            AlertManager.Instance.TryUpdatePlayerLastPosition();
         }
     }
 }

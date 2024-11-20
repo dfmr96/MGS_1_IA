@@ -5,14 +5,26 @@ using UnityEngine;
 
 public class PlayerModel : Entity
 {
+    [SerializeField] private float health;
+    [SerializeField] private float maxHealth;
+    public float Health => health;
+    public float MaxHealth => maxHealth;
     public bool IsDead { get; private set; } = false;
-    bool _isDetectable = true;
     public event Action OnDamaged;
-    public void TakeDamage()
+    public Action OnDead;
+
+    private void Start()
     {
-        IsDead = true;
-        Debug.Log("Dead");
-        GameManager.Instance.GameOver();
+        health = maxHealth;
+    }
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
         OnDamaged?.Invoke();
+        if (health <= 0)
+        {
+            OnDead?.Invoke();
+        }
     }
 }

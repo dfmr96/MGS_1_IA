@@ -10,9 +10,13 @@ public class AudioManager : MonoBehaviour
     
     [SerializeField] private AudioSource _audioSourceMain;
     [SerializeField] private AudioSource _audioSourceBackup;
+    [SerializeField] private AudioSource _audioSFX;
     [SerializeField] private AudioClip _level1BGM;
     [SerializeField] private AudioClip _alertBGM;
     [SerializeField] private AudioClip _evasionFinishedSFX;
+    [SerializeField] private AudioClip _socomSFX;
+
+    public AudioClip SocomSFX => _socomSFX;
     private void Awake()
     {
         if (Instance == null)
@@ -42,7 +46,7 @@ public class AudioManager : MonoBehaviour
 
     public void PlayAudioOneShot(AudioClip audioClip)
     {
-        _audioSourceMain.PlayOneShot(audioClip);
+        _audioSFX.PlayOneShot(audioClip);
     }
 
     public void PlayBGM(AudioClip audioClip)

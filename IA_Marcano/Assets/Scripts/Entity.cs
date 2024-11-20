@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 public class Entity : MonoBehaviour, IMove
 {
     Rigidbody _rb;
-    public float walkSpeed = 0.6f;
+    public float speed = 0.6f;
     protected virtual void Awake()
     {
         _rb = GetComponent<Rigidbody>();
@@ -14,14 +14,14 @@ public class Entity : MonoBehaviour, IMove
     public virtual void Move(UnityEngine.Vector3 dir)
     {
         dir = dir.normalized;
-        dir *= walkSpeed;
+        dir *= speed;
         dir.y = _rb.velocity.y;
         _rb.velocity = dir;
     }
 
-    public void LookDir(UnityEngine.Vector3 dir)
+    public void LookDir(Vector3 dir)
     {
-        //throw new System.NotImplementedException(); TODO
+        transform.forward = dir;
     }
 
     public void SetPosition(UnityEngine.Vector3 pos)
@@ -29,18 +29,23 @@ public class Entity : MonoBehaviour, IMove
         //throw new System.NotImplementedException(); TODO
     }
 
-    public void Look(UnityEngine.Vector3 dir)
+    public void Look(Vector3 dir)
     {
         transform.forward = dir;
     }
     public void Look(Transform target)
     {
         UnityEngine.Vector3 dir = target.position - transform.position;
-        Look(dir);
+        LookDir(dir);
     }
 
     public void Stop()
     {
         _rb.velocity = UnityEngine.Vector3.zero;
+    }
+
+    public void SetSpeed(float speed)
+    {
+        this.speed = speed;
     }
 }

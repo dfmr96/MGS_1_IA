@@ -30,6 +30,7 @@ public class AlertManager : MonoBehaviour
     private Vector3 _playerLastPosition;
     public Vector3 PlayerLastPosition => _playerLastPosition;
     public Action OnLastPlayerPositionChanged;
+    [SerializeField] private float distanceThreshold;
 
     private void Awake()
     {
@@ -45,6 +46,7 @@ public class AlertManager : MonoBehaviour
 
     private void Start()
     {
+        _playerLastPosition = Vector3.positiveInfinity;
         InitializedFSM();
         InitializeTree();
     }
@@ -125,20 +127,17 @@ public class AlertManager : MonoBehaviour
     [ContextMenu("End Evasion")]
     public void EndEvasion()
     {
+        TryUpdatePlayerLastPosition();
         _evasionState.EndState();
     }
 
-    public void PlayerFound(Vector3 playerPoint)
+    public void TryUpdatePlayerLastPosition()
     {
-        UpdatePlayerLastPosition(playerPoint);
-        CallAlert();
-    }
-
-    public void UpdatePlayerLastPosition(Vector3 playerPoint)
-    {
-        if (_playerLastPosition != playerPoint)
+        Vector3 playerCurrent = Constants.Player.transform.position;
+        float positionDistance = Vector3.Distance(_playerLastPosition, playerCurrent);
+        if (positionDistance > distanceThreshold)
         {
-            _playerLastPosition = playerPoint;
+            _playerLastPosition = playerCurrent;
             OnLastPlayerPositionChanged?.Invoke();
         }
     }
@@ -146,11 +145,7 @@ public class AlertManager : MonoBehaviour
     [ContextMenu("PlayerFound")]
     public void PlayerFound()
     {
-        if (_playerLastPosition != Constants.Player.transform.position)
-        {
-            _playerLastPosition = Constants.Player.transform.position;
-            OnLastPlayerPositionChanged?.Invoke();
-        }
+        TryUpdatePlayerLastPosition();
         CallAlert();
     }
 }

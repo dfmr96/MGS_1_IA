@@ -17,5 +17,7 @@ public enum StateEnum
    Jamming,
    Chase,
    Pursuit,
+   Flee,
+   Aim
    
 }

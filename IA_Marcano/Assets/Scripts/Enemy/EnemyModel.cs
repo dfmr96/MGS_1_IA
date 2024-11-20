@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class EnemyModel : Entity, IAttack
 {
+    public float runSpeed = 1.2f;
+    public float walkSpeed = 0.6f;
     public LayerMask attackMask;
     [SerializeField] LineOfSight _attackOfSight;
     Action _onAttack;
@@ -17,6 +19,7 @@ public class EnemyModel : Entity, IAttack
     public float angle;
     public float personalArea;
     ObstacleAvoidance _obs;
+    [SerializeField] private float damage = 1;
 
     public float GetAttackRange => _attackOfSight.range;
 
@@ -43,18 +46,17 @@ public class EnemyModel : Entity, IAttack
             if (currTarget.TryGetComponent(out PlayerModel _playerModel))
             {
                 if (_playerModel.IsDead) return;
-                _playerModel.TakeDamage();
+                _playerModel.TakeDamage(damage);
             }
             break;
         }
         _attackCooldown.ResetCooldown();
-        _onAttack();
     }
     public override void Move(UnityEngine.Vector3 dir)
     {
         dir = _obs.GetDir(dir, false);
         dir.y = 0;
-        Look(dir);
+        LookDir(dir);
         base.Move(dir);
     }
     private void OnDrawGizmosSelected()

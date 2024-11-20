@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
 
+[Serializable]
 public class StatePathfinding<T> : StateFollowPoints<T>
 {
     IMove _move;
@@ -11,12 +13,12 @@ public class StatePathfinding<T> : StateFollowPoints<T>
     public Node goal;
     public Transform target;
     private List<Node> path;
-    public StatePathfinding(Transform entity, IMove move, Animator anim, float distanceToPoint = 0.2F) : base(entity, distanceToPoint)
+    public StatePathfinding(Transform entityTransform, IMove move, Animator anim, float distanceToPoint = 0.2F) : base(entityTransform, distanceToPoint)
     {
         _move = move;
         _anim = anim;
     }
-    public StatePathfinding(Transform entity, IMove move, Animator anim, List<Vector3> waypoints, float distanceToPoint = 0.2f) : base(entity, waypoints, distanceToPoint)
+    public StatePathfinding(Transform entityTransform, IMove move, Animator anim, List<Vector3> waypoints, float distanceToPoint = 0.2f) : base(entityTransform, waypoints, distanceToPoint)
     {
         _move = move;
         _anim = anim;
@@ -63,7 +65,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
 
     public void SetPathAStar()
     {
-        var start = GetNearNode(_entity.position);
+        var start = GetNearNode(_entityTransform.position);
         goal = GetNearNode(target.position);
         List<Node> path = ASTAR.Run<Node>(start, IsSatisfies, GetConnections, GetCost, Heuristic);
         //Debug.Log(path.Count);
@@ -73,19 +75,23 @@ public class StatePathfinding<T> : StateFollowPoints<T>
     public void SetPathAStarPlus()
     {
         List<Node> currentPath = path;
-        start = GetNearNode(_entity.position);
+        start = GetNearNode(_entityTransform.position);
         goal = GetNearNode(target.position);
         path = ASTAR.Run<Node>(start, IsSatisfies, GetConnections, GetCost, Heuristic);
         path = ASTAR.CleanPath(path, InView);
         if (path.Count <= 0 || currentPath == path) return;
         SetWaypoints(GetPathVector(path));
+        //LastPos
     }
+    
+    //Vector3.Distance(LatPos,CurrentPos)>3
     
     public void SetPathAStarPlus(Vector3 targetPosition)
     {
-        var start = GetNearNode(_entity.position);
+        Debug.Log("New path");
+        start = GetNearNode(_entityTransform.position);
         goal = GetNearNode(targetPosition);
-        List<Node> path = ASTAR.Run<Node>(start, IsSatisfies, GetConnections, GetCost, Heuristic);
+        path = ASTAR.Run<Node>(start, IsSatisfies, GetConnections, GetCost, Heuristic);
         path = ASTAR.CleanPath(path, InView);
         if (path.Count <= 0) return;
         SetWaypoints(GetPathVector(path));
@@ -93,7 +99,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
 
     public void SetPathThetaStar()
     {
-        var start = GetNearNode(_entity.position);
+        var start = GetNearNode(_entityTransform.position);
         goal = GetNearNode(target.position);
         List<Node> path = ThetaStar.Run<Node>(start, IsSatisfies, GetConnections, GetCost, Heuristic, InView);
         //Debug.Log(path.Count);
@@ -102,7 +108,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
     }
     public void SetPathAStarPlusVector()
     {
-        var start = GetPoint(_entity.position);
+        var start = GetPoint(_entityTransform.position);
         List<UnityEngine.Vector3> path = ASTAR.Run<UnityEngine.Vector3>(start, IsSatisfies, GetConnections, GetCost, Heuristic);
         path = ASTAR.CleanPath(path, InView);
         if (path.Count <= 0) return;
@@ -148,7 +154,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
     float Heuristic(Node node)
     {
         float h = 0;
-        h += UnityEngine.Vector3.Distance(node.transform.position, goal.transform.position);
+        h += Vector3.Distance(node.transform.position, goal.transform.position);
         return h;
     }
     float Heuristic(UnityEngine.Vector3 node)
@@ -174,10 +180,9 @@ public class StatePathfinding<T> : StateFollowPoints<T>
     float GetCost(UnityEngine.Vector3 parent, UnityEngine.Vector3 child)
     {
         float multiplierDistance = 1;
-        float multiplierTrap = 100;
 
         float cost = 0;
-        cost += UnityEngine.Vector3.Distance(parent, child) * multiplierDistance;
+        cost += Vector3.Distance(parent, child) * multiplierDistance;
 
 
         return cost;

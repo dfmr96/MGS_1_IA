@@ -8,20 +8,20 @@ public class StateFollowPoints<T> : State<T>
 {
     protected List<UnityEngine.Vector3> _waypoints;
     int _index;
-    protected Transform _entity;
+    protected Transform _entityTransform;
     float _distanceToPoint = 0.2f;
 
     protected bool isFinishPath;
     public bool IsFinishPath => isFinishPath;
-    public StateFollowPoints(Transform entity, float distanceToPoint = 0.2f)
+    public StateFollowPoints(Transform entityTransform, float distanceToPoint = 0.2f)
     {
-        _entity = entity;
+        _entityTransform = entityTransform;
         _distanceToPoint = distanceToPoint;
         isFinishPath = true;
     }
-    public StateFollowPoints(Transform entity, List<UnityEngine.Vector3> waypoints, float distanceToPoint = 0.2f)
+    public StateFollowPoints(Transform entityTransform, List<UnityEngine.Vector3> waypoints, float distanceToPoint = 0.2f)
     {
-        _entity = entity;
+        _entityTransform = entityTransform;
         _distanceToPoint = distanceToPoint;
         _waypoints = waypoints;
         isFinishPath = true;
@@ -37,8 +37,8 @@ public class StateFollowPoints<T> : State<T>
     {
         if (newPoints.Count == 0 || newPoints == _waypoints) return;
         _waypoints = newPoints;
-        Vector3 dirToPoint = (_waypoints[0] - _entity.position).normalized;
-        bool skipFirstPoint = Vector3.Dot(dirToPoint, _entity.forward) <= 0;
+        Vector3 dirToPoint = (_waypoints[0] - _entityTransform.position).normalized;
+        bool skipFirstPoint = Vector3.Dot(dirToPoint, _entityTransform.forward) <= 0;
         _index = skipFirstPoint ? 1 : 0;
         isFinishPath = false;
         OnStartPath();
@@ -47,8 +47,8 @@ public class StateFollowPoints<T> : State<T>
     {
         if (IsFinishPath) return;
         Vector3 point = _waypoints[_index];
-        point.y = _entity.position.y; //Horizontal move
-        Vector3 dir = point - _entity.position;
+        point.y = _entityTransform.position.y; //Horizontal move
+        Vector3 dir = point - _entityTransform.position;
         if (dir.magnitude < _distanceToPoint)
         {
             if (_index + 1 < _waypoints.Count)

@@ -14,27 +14,37 @@ public class Pursuit : ISteering
         _target = target;
         _timePrediction = timePrediction;
     }
-
     public Vector3 GetDir()
     {
-        Vector3 point = _target.position + _target.transform.forward * (_target.velocity.magnitude * _timePrediction);
+        if (_target == null) return Vector3.zero;
+        Vector3 point = _target.position + _target.transform.forward * _target.velocity.magnitude * _timePrediction;
         Vector3 dirToPoint = (point - _entity.position).normalized;
         Vector3 dirToTarget = (_target.position - _entity.position).normalized;
+
         if (Vector3.Dot(dirToPoint, dirToTarget) < 0)
         {
-            return dirToTarget;
+            dirToPoint = dirToTarget;
+#if UNITY_EDITOR
+            point = _target.position;// Debug
+#endif
         }
-        else
-        {
-            return dirToPoint;
-        }
-    }
 
-    public float TimePrediction
+#if UNITY_EDITOR
+        Debug.DrawRay(point, Vector3.up * 2, Color.red);// Debug
+        Debug.DrawRay(point, Quaternion.Euler(0, 0, 45) * Vector3.up * 2, Color.red);// Debug
+        Debug.DrawRay(point, Quaternion.Euler(0, 0, -45) * Vector3.up * 2, Color.red);// Debug
+#endif
+        return dirToPoint;
+    }
+    public Rigidbody Target
     {
+        get
+        {
+            return _target;
+        }
         set
         {
-            _timePrediction = value;
+            _target = value;
         }
     }
 }
