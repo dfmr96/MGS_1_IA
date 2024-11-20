@@ -10,11 +10,6 @@ namespace CameraScripts.CameraStates
         {
             _camModel = camModel;
         }
-        public override void Enter()
-        {
-            base.Enter();
-            Debug.Log("IDLE ENTER");
-        }
 
         public override void Execute()
         {

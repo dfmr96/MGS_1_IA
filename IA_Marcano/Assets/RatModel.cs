@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class RatModel : Entity, IBoid
 {
-    [SerializeField] private float _aggroBuffer;
-    public float AggroBuffer => _aggroBuffer;
+    [SerializeField] private float aggroBuffer;
+    public float AggroBuffer => aggroBuffer;
+    
+    public float walkSpeed;
+    public float runSpeed;
     
     [Header("Obstacle Avoidance")]
     public float radius;
@@ -39,6 +43,15 @@ public class RatModel : Entity, IBoid
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, angle / 2, 0) * transform.forward * radius);
         Gizmos.DrawRay(transform.position, Quaternion.Euler(0, -angle / 2, 0) * transform.forward * radius);
+    }
+
+    public bool InView(LineOfSight los, Transform target)
+    {
+        bool inViewCurrentFrame = los.CheckRange(target.transform)
+                                  && los.CheckAngle(target.transform)
+                                  && los.CheckView(target.transform);
+        
+        return inViewCurrentFrame;
     }
 
     public Vector3 Position => transform.position;

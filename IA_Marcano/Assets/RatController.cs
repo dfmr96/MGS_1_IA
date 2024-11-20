@@ -66,7 +66,6 @@ public class RatController : MonoBehaviour
         var qInPatrol = new QuestionTree(() => _patrolState.IsFinishPath, qInIdle, patrol);
         var qInView = new QuestionTree(InView, evade , qInPatrol);
         var qIsExist = new QuestionTree( () => _player != null, qInView, qInPatrol);//qInPatrol);
-        Debug.Log($"{_player}");
         _root = qIsExist;
     }
     
@@ -78,10 +77,8 @@ public class RatController : MonoBehaviour
                       && _detectionLoS.CheckView(_player);
         if (inView || _evadeState.IsAggroBufferActive)
         {
-            Debug.Log("In view");
             return true;
         }
-        Debug.Log("Not in view");
         return false;
     }
     

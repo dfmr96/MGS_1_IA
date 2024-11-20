@@ -14897,10 +14897,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rat Void (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3409787673580704355, guid: db9beb201abadb8479c9496523521a53, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4840319453706937846, guid: db9beb201abadb8479c9496523521a53, type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 1718036901}
+    - target: {fileID: 7632386758351698967, guid: db9beb201abadb8479c9496523521a53, type: 3}
+      propertyPath: ratLeader
+      value: 
+      objectReference: {fileID: 1718036908}
     - target: {fileID: 7843806333696582694, guid: db9beb201abadb8479c9496523521a53, type: 3}
       propertyPath: personalArea
       value: 0.75
@@ -30254,6 +30262,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8722696798102406330, guid: 346c64360e39ac44897eb460dfd08733, type: 3}
   m_PrefabInstance: {fileID: 2071702692}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1718036908 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1290712967256141673, guid: 346c64360e39ac44897eb460dfd08733, type: 3}
+  m_PrefabInstance: {fileID: 2071702692}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5abe0797b0385c6499c46962dec3a163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1730128350
 GameObject:
   m_ObjectHideFlags: 0
@@ -31797,10 +31816,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rat Void (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3409787673580704355, guid: db9beb201abadb8479c9496523521a53, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4840319453706937846, guid: db9beb201abadb8479c9496523521a53, type: 3}
       propertyPath: target
       value: 
       objectReference: {fileID: 1718036901}
+    - target: {fileID: 7632386758351698967, guid: db9beb201abadb8479c9496523521a53, type: 3}
+      propertyPath: ratLeader
+      value: 
+      objectReference: {fileID: 1718036908}
     - target: {fileID: 7843806333696582694, guid: db9beb201abadb8479c9496523521a53, type: 3}
       propertyPath: personalArea
       value: 0.75
@@ -32847,7 +32874,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1841634407
 Transform:
   m_ObjectHideFlags: 0
@@ -38153,6 +38180,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3409787673580704350, guid: db9beb201abadb8479c9496523521a53, type: 3}
+      propertyPath: radius
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 3409787673580704350, guid: db9beb201abadb8479c9496523521a53, type: 3}
+      propertyPath: runSpeed
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3409787673580704350, guid: db9beb201abadb8479c9496523521a53, type: 3}
+      propertyPath: walkSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3409787673580704350, guid: db9beb201abadb8479c9496523521a53, type: 3}
+      propertyPath: personalArea
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3409787673580704355, guid: db9beb201abadb8479c9496523521a53, type: 3}
       propertyPath: m_Name
       value: Rat Void
@@ -38161,10 +38204,10 @@ PrefabInstance:
       propertyPath: target
       value: 
       objectReference: {fileID: 1718036901}
-    - target: {fileID: 7843806333696582694, guid: db9beb201abadb8479c9496523521a53, type: 3}
-      propertyPath: personalArea
-      value: 0.75
-      objectReference: {fileID: 0}
+    - target: {fileID: 7632386758351698967, guid: db9beb201abadb8479c9496523521a53, type: 3}
+      propertyPath: ratLeader
+      value: 
+      objectReference: {fileID: 1718036908}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db9beb201abadb8479c9496523521a53, type: 3}
 --- !u!1 &2138444341

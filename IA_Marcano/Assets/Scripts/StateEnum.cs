@@ -18,6 +18,7 @@ public enum StateEnum
    Chase,
    Pursuit,
    Flee,
-   Aim
+   Aim,
+   Flock,
    
 }

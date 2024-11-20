@@ -14,6 +14,7 @@
     public override void Execute()
     {
         if (_steering == null) return;
+        _ratModel.SetSpeed(_ratModel.walkSpeed);
         var dir = _obs.GetDir(_steering.GetDir(), false);
         _ratModel.Move(dir);
         _ratModel.LookDir(dir);

@@ -21,18 +21,11 @@ public class PlayerStateIdle<T> : State<T>
         _playerModel.OnDead += ToDeath;
     }
 
-    public override void Enter()
-    {
-        base.Enter();
-        //_move.Move(Vector3.zero);
-    }
-
     public override void Execute()
     {
         base.Execute();
         var h = Input.GetAxis("Horizontal");
         var v = Input.GetAxis("Vertical");
-        Debug.Log($"{h},{v}");
         if (h != 0 || v != 0)
         {
             _fsm.Transition(_inputToMove);
@@ -40,7 +33,6 @@ public class PlayerStateIdle<T> : State<T>
 
         if (Input.GetKeyDown(KeyCode.X))
         {
-            Debug.Log("Intenta entrar a Aim");
             _fsm.Transition(_inputToAim);
         }
     }

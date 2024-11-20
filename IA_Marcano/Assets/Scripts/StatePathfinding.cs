@@ -32,11 +32,13 @@ public class StatePathfinding<T> : StateFollowPoints<T>
     {
         base.OnStartPath();
         //_move.SetPosition(_waypoints[0]);
+        if (_anim == null) return;
         _anim.SetFloat("Vel", 1);
     }
     protected override void OnFinishPath()
     {
         base.OnFinishPath();
+        if (_anim == null) return;
         _anim.SetFloat("Vel", 0);
     }
     public void SetPath()
@@ -86,7 +88,6 @@ public class StatePathfinding<T> : StateFollowPoints<T>
     
     public void SetPathAStarPlus(Vector3 targetPosition)
     {
-        Debug.Log("New path");
         start = GetNearNode(_entityTransform.position);
         goal = GetNearNode(targetPosition);
         path = ASTAR.Run<Node>(start, IsSatisfies, GetConnections, GetCost, Heuristic);
