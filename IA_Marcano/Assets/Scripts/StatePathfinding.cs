@@ -11,12 +11,25 @@ public class StatePathfinding<T> : StateFollowPoints<T>
     public Node goal;
     public Transform target;
     private List<Node> path;
-    public StatePathfinding(Transform entityTransform, IMove move, Animator anim, float distanceToPoint = 0.2F) : base(entityTransform, distanceToPoint)
+    private float _maxDistance;
+
+    public StatePathfinding(Transform entityTransform, IMove move, Animator anim, float distanceToPoint = 0.2F) : base(
+        entityTransform, distanceToPoint)
     {
         _move = move;
         _anim = anim;
     }
-    public StatePathfinding(Transform entityTransform, IMove move, Animator anim, List<Vector3> waypoints, float distanceToPoint = 0.2f) : base(entityTransform, waypoints, distanceToPoint)
+
+    public StatePathfinding(Transform entityTransform, IMove move, Animator anim, float maxDistance,
+        float distanceToPoint = 0.2f) : base(entityTransform, distanceToPoint)
+    {
+        _move = move;
+        _anim = anim;
+        _maxDistance = maxDistance;
+    }
+
+    public StatePathfinding(Transform entityTransform, IMove move, Animator anim, List<Vector3> waypoints,
+        float distanceToPoint = 0.2f) : base(entityTransform, waypoints, distanceToPoint)
     {
         _move = move;
         _anim = anim;
@@ -28,6 +41,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         _move.Move(dir);
         _move.LookDir(dir);
     }
+
     protected override void OnStartPath()
     {
         base.OnStartPath();
@@ -35,12 +49,14 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         if (_anim == null) return;
         _anim.SetFloat("Vel", 1);
     }
+
     protected override void OnFinishPath()
     {
         base.OnFinishPath();
         if (_anim == null) return;
         _anim.SetFloat("Vel", 0);
     }
+
     public void SetPath()
     {
         List<Node> path = BFS.Run<Node>(start, IsSatisfies, GetConnections);
@@ -48,6 +64,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         if (path.Count <= 0) return;
         SetWaypoints(GetPathVector(path));
     }
+
     public void SetPathDFS()
     {
         List<Node> path = DFS.Run<Node>(start, IsSatisfies, GetConnections);
@@ -55,6 +72,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         if (path.Count <= 0) return;
         SetWaypoints(GetPathVector(path));
     }
+
     public void SetPathDijkstra()
     {
         List<Node> path = Dijkstra.Run<Node>(start, IsSatisfies, GetConnections, GetCost);
@@ -72,6 +90,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         if (path.Count <= 0) return;
         SetWaypoints(GetPathVector(path));
     }
+
     public void SetPathAStarPlus()
     {
         List<Node> currentPath = path;
@@ -83,11 +102,12 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         SetWaypoints(GetPathVector(path));
         //LastPos
     }
-    
+
     //Vector3.Distance(LatPos,CurrentPos)>3
-    
+
     public void SetPathAStarPlus(Vector3 targetPosition)
     {
+        isFinishPath = false;
         start = GetNearNode(_entityTransform.position);
         goal = GetNearNode(targetPosition);
         path = ASTAR.Run<Node>(start, IsSatisfies, GetConnections, GetCost, Heuristic);
@@ -95,6 +115,8 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         if (path.Count <= 0) return;
         SetWaypoints(GetPathVector(path));
     }
+
+
 
     public void SetPathThetaStar()
     {
@@ -105,28 +127,34 @@ public class StatePathfinding<T> : StateFollowPoints<T>
         if (path.Count <= 0) return;
         SetWaypoints(GetPathVector(path));
     }
+
     public void SetPathAStarPlusVector()
     {
         var start = GetPoint(_entityTransform.position);
-        List<UnityEngine.Vector3> path = ASTAR.Run<UnityEngine.Vector3>(start, IsSatisfies, GetConnections, GetCost, Heuristic);
+        List<UnityEngine.Vector3> path =
+            ASTAR.Run<UnityEngine.Vector3>(start, IsSatisfies, GetConnections, GetCost, Heuristic);
         path = ASTAR.CleanPath(path, InView);
         if (path.Count <= 0) return;
         SetWaypoints(path);
     }
+
     UnityEngine.Vector3 GetPoint(UnityEngine.Vector3 point)
     {
         return Vector3Int.RoundToInt(point);
     }
-    bool InView(Node granparent, Node child)
+
+    protected bool InView(Node granparent, Node child)
     {
         return InView(granparent.transform.position, child.transform.position);
     }
-    bool InView(UnityEngine.Vector3 granparent, UnityEngine.Vector3 child)
+
+    protected bool InView(UnityEngine.Vector3 granparent, UnityEngine.Vector3 child)
     {
         //Debug.Log("RAYO");
         UnityEngine.Vector3 diff = child - granparent;
         return !Physics.Raycast(granparent, diff.normalized, diff.magnitude, Constants.obsMask);
     }
+
     protected Node GetNearNode(UnityEngine.Vector3 pos)
     {
         var colls = Physics.OverlapSphere(pos, Constants.nearNodeDistance, Constants.nodeMask);
@@ -147,22 +175,37 @@ public class StatePathfinding<T> : StateFollowPoints<T>
                 nearDistance = currentDistance;
             }
         }
+
         return nearNode;
     }
 
-    float Heuristic(Node node)
+    protected float Heuristic(Node node)
     {
         float h = 0;
         h += Vector3.Distance(node.transform.position, goal.transform.position);
         return h;
     }
-    float Heuristic(UnityEngine.Vector3 node)
+
+    protected float Heuristic(UnityEngine.Vector3 node)
     {
         float h = 0;
         h += UnityEngine.Vector3.Distance(node, target.transform.position);
         return h;
     }
-    float GetCost(Node parent, Node child)
+
+    protected float HeuristicForFlee(Node node)
+    {
+        var distance = Vector3.Distance(node.transform.position, Constants.Player.transform.position);
+
+        return _maxDistance - Mathf.Clamp(distance, 0, _maxDistance);
+    }
+
+    protected float GetCostForFlee(Node parent, Node child)
+    {
+        return Vector3.Distance(parent.transform.position, child.transform.position);
+    }
+
+    protected float GetCost(Node parent, Node child)
     {
         float multiplierDistance = 1;
         float multiplierTrap = 100;
@@ -176,7 +219,8 @@ public class StatePathfinding<T> : StateFollowPoints<T>
 
         return cost;
     }
-    float GetCost(UnityEngine.Vector3 parent, UnityEngine.Vector3 child)
+
+    protected float GetCost(UnityEngine.Vector3 parent, UnityEngine.Vector3 child)
     {
         float multiplierDistance = 1;
 
@@ -186,29 +230,49 @@ public class StatePathfinding<T> : StateFollowPoints<T>
 
         return cost;
     }
-    List<UnityEngine.Vector3> GetPathVector(List<Node> path)
+
+    protected List<UnityEngine.Vector3> GetPathVector(List<Node> path)
     {
         List<UnityEngine.Vector3> pathVector = new List<UnityEngine.Vector3>();
         for (int i = 0; i < path.Count; i++)
         {
             pathVector.Add(path[i].transform.position);
         }
+
         return pathVector;
     }
-    bool IsSatisfies(Node current)
+
+    protected bool IsSatisfies(Node current)
     {
         return current == goal;
     }
-    bool IsSatisfies(UnityEngine.Vector3 current)
+
+    protected bool IsSatisfiesFlee(Node current)
+    {
+        if (current == null) return false;
+
+        float distance = Vector3.Distance(current.transform.position, _entityTransform.position);
+
+        if (distance > _maxDistance)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    protected bool IsSatisfies(UnityEngine.Vector3 current)
     {
         var pointToGoal = GetPoint(target.transform.position);
         return UnityEngine.Vector3.Distance(current, pointToGoal) <= 1f;
     }
-    List<Node> GetConnections(Node current)
+
+    protected List<Node> GetConnections(Node current)
     {
         return current.neightbourds;
     }
-    List<UnityEngine.Vector3> GetConnections(UnityEngine.Vector3 current)
+
+    protected List<UnityEngine.Vector3> GetConnections(UnityEngine.Vector3 current)
     {
         List<UnityEngine.Vector3> connections = new List<UnityEngine.Vector3>();
         for (int x = -1; x <= 1; x++)
@@ -223,6 +287,7 @@ public class StatePathfinding<T> : StateFollowPoints<T>
                 connections.Add(point);
             }
         }
+
         return connections;
     }
 }

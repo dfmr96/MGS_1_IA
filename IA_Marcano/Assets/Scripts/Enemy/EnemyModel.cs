@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Enemy
@@ -7,9 +8,8 @@ namespace Enemy
     {
         Cooldown _attackCooldown;
         Action _onAttack;
-        
-        [Header("Stats")] 
-        [SerializeField] private float runSpeed = 1.2f;
+
+        [Header("Stats")] [SerializeField] private float runSpeed = 1.2f;
         [SerializeField] private float walkSpeed = 0.6f;
         [SerializeField] private LayerMask attackMask;
         [SerializeField] private float idleTime;
@@ -18,32 +18,43 @@ namespace Enemy
         [SerializeField] private float aggroBuffer;
         [SerializeField] private float damage = 1;
         [SerializeField] private float maxHealth;
-    
-        [Header("Line of Sights")] 
-        [SerializeField] private LineOfSight _aggroLoS;
+
+        [Header("Line of Sights")] [SerializeField]
+        private LineOfSight _aggroLoS;
+
         [SerializeField] private LineOfSight _attackLoS;
         [SerializeField] private LineOfSight _detectionLoS;
         public LineOfSight AggroLoS => _aggroLoS;
         public LineOfSight AttackLoS => _attackLoS;
         public LineOfSight DetectionLoS => _detectionLoS;
-        
-        [Header("Obstacle Avoidance")]
-        public float radius;
+
+        [Header("Obstacle Avoidance")] public float radius;
         public float angle;
         public float personalArea;
         ObstacleAvoidance _obs;
 
+        private int _lastFrameLos = 0;
+        private bool _lastResultLos = false;
+        Dictionary<LineOfSight, LosCache> _cache = new Dictionary<LineOfSight, LosCache>();
         public float GetAttackRange => attackOfSight.range;
 
-        public Action OnAttack { get => _onAttack; set => _onAttack = value; }
-        public Cooldown AttackCooldown { get => _attackCooldown; }
+        public Action OnAttack
+        {
+            get => _onAttack;
+            set => _onAttack = value;
+        }
+
+        public Cooldown AttackCooldown
+        {
+            get => _attackCooldown;
+        }
 
         public float RunSpeed => runSpeed;
 
         public float WalkSpeed => walkSpeed;
 
         public float IdleTime => idleTime;
-        
+
         public float AggroBuffer => aggroBuffer;
         public float MaxHealth => maxHealth;
 
@@ -55,6 +66,7 @@ namespace Enemy
             _attackCooldown = new Cooldown(attackCooldownTime);
             _obs = new ObstacleAvoidance(transform, radius, angle, personalArea, Constants.obsMask);
         }
+
         public void Attack()
         {
             Collider[] colls = Physics.OverlapSphere(transform.position, attackOfSight.range, attackMask);
@@ -70,10 +82,13 @@ namespace Enemy
                     if (_playerModel.IsDead) return;
                     _playerModel.TakeDamage(damage);
                 }
+
                 break;
             }
+
             _attackCooldown.ResetCooldown();
         }
+
         public override void Move(UnityEngine.Vector3 dir)
         {
             dir = _obs.GetDir(dir, false);
@@ -81,19 +96,38 @@ namespace Enemy
             LookDir(dir);
             base.Move(dir);
         }
-    
+
         public bool InView(LineOfSight los, Transform target)
         {
-            bool inViewCurrentFrame = los.CheckRange(target.transform)
-                                      && los.CheckAngle(target.transform)
-                                      && los.CheckView(target.transform);
-
-            if (inViewCurrentFrame && (!AlertManager.Instance.isOnAlert || AlertManager.Instance.isOnEvasion))
+            if (!_cache.ContainsKey(los))
             {
-                AlertManager.Instance.CallAlert();
+                _cache[los] = new LosCache();
             }
-            return inViewCurrentFrame;
+
+            var losCache = _cache[los];
+
+            var currentFrame = Time.frameCount;
+            if (currentFrame == losCache.lastFrame)
+            {
+                return losCache.lastResult;
+            }
+            else
+            {
+                bool inViewCurrentFrame = los.CheckRange(target.transform)
+                                          && los.CheckAngle(target.transform)
+                                          && los.CheckView(target.transform);
+
+                if (inViewCurrentFrame && (!AlertManager.Instance.isOnAlert || AlertManager.Instance.isOnEvasion))
+                {
+                    AlertManager.Instance.CallAlert();
+                }
+
+                losCache.lastFrame = currentFrame;
+                losCache.lastResult = inViewCurrentFrame;
+                return inViewCurrentFrame;
+            }
         }
+
         private void OnDrawGizmosSelected()
         {
             Color myColor = Color.cyan;
@@ -108,4 +142,10 @@ namespace Enemy
             Gizmos.DrawRay(transform.position, Quaternion.Euler(0, -angle / 2, 0) * transform.forward * radius);
         }
     }
+}
+
+public class LosCache
+{
+    public int lastFrame;
+    public bool lastResult;
 }

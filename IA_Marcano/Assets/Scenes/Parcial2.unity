@@ -36732,6 +36732,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1290712967256141673, guid: 346c64360e39ac44897eb460dfd08733, type: 3}
+      propertyPath: _maxDistance
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290712967256141673, guid: 346c64360e39ac44897eb460dfd08733, type: 3}
+      propertyPath: fleeThreshold
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1290712967256141673, guid: 346c64360e39ac44897eb460dfd08733, type: 3}
       propertyPath: waypoints.Array.data[0]
       value: 
       objectReference: {fileID: 371014860}
@@ -36743,9 +36751,21 @@ PrefabInstance:
       propertyPath: waypoints.Array.data[2]
       value: 
       objectReference: {fileID: 1217172402}
+    - target: {fileID: 1290712967256141673, guid: 346c64360e39ac44897eb460dfd08733, type: 3}
+      propertyPath: _evadeState._aggroBuffer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8234530830649957888, guid: 346c64360e39ac44897eb460dfd08733, type: 3}
       propertyPath: m_Name
       value: Rat
+      objectReference: {fileID: 0}
+    - target: {fileID: 8234530830649957949, guid: 346c64360e39ac44897eb460dfd08733, type: 3}
+      propertyPath: runSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8234530830649957949, guid: 346c64360e39ac44897eb460dfd08733, type: 3}
+      propertyPath: aggroBuffer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8722696798102406330, guid: 346c64360e39ac44897eb460dfd08733, type: 3}
       propertyPath: m_RootOrder

@@ -39,7 +39,7 @@ public class StateFollowPoints<T> : State<T>
         _waypoints = newPoints;
         Vector3 dirToPoint = (_waypoints[0] - _entityTransform.position).normalized;
         bool skipFirstPoint = Vector3.Dot(dirToPoint, _entityTransform.forward) <= 0;
-        _index = skipFirstPoint ? 1 : 0;
+        _index = 0;
         isFinishPath = false;
         OnStartPath();
     }

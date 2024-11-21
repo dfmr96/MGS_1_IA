@@ -32,20 +32,18 @@ public class ASTAR : MonoBehaviour
                 path.Reverse();
                 return path;
             }
-            else
+
+            visited.Add(current);
+            List<T> connections = getConnections(current);
+            for (int i = 0; i < connections.Count; i++)
             {
-                visited.Add(current);
-                List<T> connections = getConnections(current);
-                for (int i = 0; i < connections.Count; i++)
-                {
-                    T child = connections[i];
-                    if (visited.Contains(child)) continue;
-                    var currentCost = cost[current] + getCost(current, child);
-                    if (cost.ContainsKey(child) && cost[child] <= currentCost) continue;
-                    cost[child] = currentCost;
-                    pending.Enqueue(child, currentCost + heuristic(child));
-                    parents[child] = current;
-                }
+                T child = connections[i];
+                if (visited.Contains(child)) continue;
+                var currentCost = cost[current] + getCost(current, child);
+                if (cost.ContainsKey(child) && cost[child] <= currentCost) continue;
+                cost[child] = currentCost;
+                pending.Enqueue(child, currentCost + heuristic(child));
+                parents[child] = current;
             }
         }
         return new List<T>();
